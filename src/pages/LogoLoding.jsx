@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 // Replace this with your actual logo import:
-import logo from "@/assets/milestone.png";
+import logo from "@/assets/milestoneGroups.png";
 
 const LogoLoading = () => {
   const [isLoading, setIsLoading] = useState(true);
