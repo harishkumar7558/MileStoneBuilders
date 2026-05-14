@@ -39,7 +39,7 @@ const ContactPage = () => {
         { icon: Mail, label: "Email", value: "milestonebuilderindia@gmail.com", link: "mailto:milestonebuilderindia@gmail.com", color: "text-purple-600", bg: "bg-purple-50" },
         { icon: Mail, label: "Email", value: "milestonesurvey2026@gmail.com", link: "mailto:milestonesurvey2026@gmail.com", color: "text-purple-600", bg: "bg-purple-50" },
         { icon: Instagram, label: "Instagram", value: "@milestonebuilders1", link: "https://www.instagram.com/milestonebuilders1", color: "text-pink-600", bg: "bg-pink-50" },
-        { icon: MapPin, label: "Location", value: "Tirunelveli, Tamil Nadu, India", color: "text-orange-600", bg: "bg-orange-50" },
+        { icon: MapPin, label: "Location", value: "3/328 Victoria nagar ittery road puthukulam, reddiyarpatti,Tirunelveli-627007, India", color: "text-orange-600", bg: "bg-orange-50" },
         { icon: MapPin, label: "Location", value: "Chennai, Tamil Nadu, India", color: "text-orange-600", bg: "bg-orange-50" },
     ]
 
