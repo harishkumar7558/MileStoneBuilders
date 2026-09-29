@@ -110,24 +110,13 @@ const GeoService = () => {
   };
 
   const keyPersonnel = [
-    {
-      name: "Mr. Jebastin Daniel M.E(Structural)",
-      experience: "13 Years of Experience",
-      role: "Structural Designer",
-      highlight: true, // this one is centered at the top
-    },
-    {
-      name: "Mr. M.Mukesh B.E(Civil)",
-      experience: "13 Years of Experience",
-      role: "Surveyor",
-    },
-    {
-      name: "Mr. M.MuthuRaja Thivakar M.E(GeoTech)",
-      experience: "4 Years of Experience",
-      role: "GeoTechnical Engineer",
-      qualification: "",
-    },
-    {
+    // {
+    //   name: "Mr. Jebastin Daniel M.E(Structural)",
+    //   experience: "13 Years of Experience",
+    //   role: "Structural Designer",
+    //   highlight: true, // this one is centered at the top
+    // },
+       {
       name: "Dr. N. Chandrasekar",
       experience: "",
       role: "Sr. Geologist",
@@ -135,6 +124,18 @@ const GeoService = () => {
       specialization:
         "All Types of Soil, Water & Rock Testing | Accurate, Reliable & Professional Geological Field & Lab Testing",
     },
+    // {
+    //   name: "Mr. M.Mukesh B.E(Civil)",
+    //   experience: "13 Years of Experience",
+    //   role: "Surveyor",
+    // },
+    {
+      name: "Mr. M.MuthuRaja Thivakar M.E(GeoTech)",
+      experience: "4 Years of Experience",
+      role: "GeoTechnical Engineer",
+      qualification: "",
+    },
+
   ];
 
   const servicesAccordion = [
@@ -490,7 +491,7 @@ const GeoService = () => {
               <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter">
                 <span className="block text-orange-900">Milestone</span>
                 <span className="block text-amber-600 -mt-4 sm:-mt-14">
-                  Geo Service
+                  Geo Services
                 </span>
               </h1>
             </motion.div>

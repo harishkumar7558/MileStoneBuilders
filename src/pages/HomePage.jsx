@@ -79,33 +79,20 @@ const HomePage = () => {
         name: 'Mr. Jebastin Daniel M.E(Structural)',
         experience: '13 Years of Experience',
         role: 'Structural Designer',
-        highlight: true, // this one is centered at the top
+        // highlight: true, // this one is centered at the top
     },
     {
         name: 'Mr. M.Mukesh B.E(Civil)',
         experience: '13 Years of Experience',
         role: 'Surveyor',
     },
-    {
-        name: 'Mr. M.MuthuRaja Thivakar M.E(GeoTech)',
-        experience: '4 Years of Experience',
-        role: 'GeoTechnical Engineer',
-        qualification: '',
-    },
-    {
-        name: 'Mr. M.MuthuRaja Thivakar M.E(GeoTech)',
-        experience: '4 Years of Experience',
-        role: 'GeoTechnical Engineer',
-        qualification: '',
-    },
-    {
-        name: 'Dr. N. Chandrasekar',
-        experience: '',
-        role: 'Sr. Geologist',
-        qualification: 'ISO/IEC 17025:2017 Compliance Testing Services',
-        specialization:
-            'All Types of Soil, Water & Rock Testing | Accurate, Reliable & Professional Geological Field & Lab Testing',
-    },
+    // {
+    //     name: 'Mr. M.MuthuRaja Thivakar M.E(GeoTech)',
+    //     experience: '4 Years of Experience',
+    //     role: 'GeoTechnical Engineer',
+    //     qualification: '',
+    // },
+   
 ];
 
     const servicesAccordion = [
@@ -243,7 +230,7 @@ const HomePage = () => {
 
     ]
 
-    const links = ["Builders", "Surveys", "Geo Services", "Contact Us"]
+    const links = ["Builders", "Surveys", "Geo Servicess", "Contact Us"]
 
     const reasons = [
         {
@@ -345,6 +332,8 @@ const HomePage = () => {
                             <span className="block text-amber-600 -mt-6 sm:-mt-12">BUILDERS</span>
                         </motion.h1>
 
+                         
+
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -366,7 +355,95 @@ const HomePage = () => {
                     </div>
                 </section>
 
-         
+                 {/* Key Personnel Timeline */}
+        <section className="py-20 px-6 ">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-center text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-orange-700 bg-clip-text text-transparent mb-16">
+              Key Personnel
+            </h2>
+
+            <div className="relative">
+              {/* Central Vertical Line - Orange */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-orange-400 h-full hidden md:block opacity-60" />
+
+              <div className="space-y-24">
+                {keyPersonnel.map((person, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.7, delay: i * 0.2 }}
+                    className="relative"
+                  >
+                    {/* Top Highlighted Person (Centered) */}
+                    {person.highlight ? (
+                      <div className="flex flex-col items-center">
+                        {/* Large Orange Dot Above */}
+                        <div className="sm:w-16 sm:h-16 w-12 h-12 bg-orange-600 rounded-full shadow-2xl mb-6 relative z-10" />
+
+                        {/* Person Card */}
+                        <div className="text-center max-w-md bg-white rounded-3xl p-10 shadow-2xl ">
+                          <h3 className="sm:text-3xl text-xl font-bold text-gray-900">
+                            {person.name}
+                          </h3>
+                          <p className="sm:text-2xl text-lg  font-bold text-orange-600 mt-3">
+                            {person.experience}
+                          </p>
+                          <div className="mt-6 pt-6 border-t-2 border-orange-200">
+                            <p className="sm:text-2xl text-lg font-semibold text-gray-800">
+                              {person.role}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      /* Alternating Left/Right Cards */
+                      <div
+                        className={`flex items-center justify-center gap-10 ${
+                          i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                        } flex-col md:flex-row`}
+                      >
+                        {/* Empty spacer for alignment */}
+                        <div className="flex-1 hidden md:block" />
+
+                        {/* Timeline Dot */}
+                        <div className="w-14 h-14   bg-orange-500 rounded-full shadow-xl  z-20 flex-shrink-0" />
+
+                        {/* Person Card */}
+                        <div className="flex-1 max-w-md">
+                          <div className="bg-white rounded-2xl p-8 shadow-xl border border-orange-100 hover:shadow-2xl transition-shadow">
+                            <h3 className="sm:text-2xl text-xl font-bold text-gray-900">
+                              {person.name}
+                            </h3>
+
+                            {person.qualification && (
+                              <p className="text-orange-600 font-semibold mt-2">
+                                {person.qualification}
+                              </p>
+                            )}
+
+                            <p className="text-lg font-medium text-orange-700 mt-4">
+                              {person.experience}
+                            </p>
+
+                            <div className="mt-6 pt-6 border-t border-gray-200">
+                              <p className="text-2xl font-semibold text-gray-800">
+                                {person.role}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+
 
                 <section className="py-20 bg-orange-600 text-white text-center">
                     <div className="max-w-4xl mx-auto px-6">

@@ -1,6 +1,6 @@
 
 
-import milestone from "@/assets/milestone2.png"
+import milestone from "@/assets/milestone1.png"
 import whatsappLogo from '@/assets/whatsapp.png'
 import { Button } from "@/components/ui/button"
 import { Checkbox } from '@/components/ui/checkbox'
@@ -15,7 +15,7 @@ import { Compass, Menu, X } from "lucide-react"
 import { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 const links = [
-    { label: "Geo Service", href: "/" },
+    { label: "Geo Services", href: "/" },
     { label: "Survey", href: "/survey" },
     { label: "Builders", href: "/home" },
     { label: "Contact", href: "/contact" },

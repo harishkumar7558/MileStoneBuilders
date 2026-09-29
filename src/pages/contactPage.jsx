@@ -36,11 +36,11 @@ const ContactPage = () => {
     const contacts = [
         { icon: Phone, label: "Phone", value: "+91 63690 51199", link: "tel:+916369051199", color: "text-blue-600", bg: "bg-blue-50" },
         { icon: Phone, label: "Phone", value: "+91 75503 40861", link: "tel:+917550340861", color: "text-blue-600", bg: "bg-blue-50" },
-        { icon: Mail, label: "Email", value: "Milestonegeo@gmail.com", link: "mailto:Milestonegeo@gmail.com", color: "text-purple-600", bg: "bg-purple-50" },
+        { icon: Mail, label: "Email", value: "milestonegeo@gmail.com", link: "mailto:milestonegeo@gmail.com", color: "text-purple-600", bg: "bg-purple-50" },
         { icon: Mail, label: "Email", value: "milestonegeoservice@gmail.com", link: "mailto:milestonegeoservice@gmail.com", color: "text-purple-600", bg: "bg-purple-50" },
         { icon: Instagram, label: "Instagram", value: "@milestonebuilders1", link: "https://www.instagram.com/milestonebuilders1", color: "text-pink-600", bg: "bg-pink-50" },
         { icon: MapPin, label: "Location", value: "3/328 Victoria nagar ittery road puthukulam, reddiyarpatti,Tirunelveli-627007, India", color: "text-orange-600", bg: "bg-orange-50" },
-        { icon: MapPin, label: "Location", value: "Chennai, Tamil Nadu, India", color: "text-orange-600", bg: "bg-orange-50" },
+       { icon: MapPin, label: "Locations", value: "Chennai, Puducherry, Thoothukudi, Tamil Nadu, India", color: "text-orange-600", bg: "bg-orange-50" },
     ]
 
     const handleQuickMessage = () => {
