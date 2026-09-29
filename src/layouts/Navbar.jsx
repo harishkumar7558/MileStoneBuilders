@@ -1,6 +1,6 @@
 
 
-import milestone from "@/assets/milestone1.png"
+import milestone from "@/assets/milestone2.png"
 import whatsappLogo from '@/assets/whatsapp.png'
 import { Button } from "@/components/ui/button"
 import { Checkbox } from '@/components/ui/checkbox'

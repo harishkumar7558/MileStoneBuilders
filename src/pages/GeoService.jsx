@@ -128,12 +128,6 @@ const GeoService = () => {
       qualification: "",
     },
     {
-      name: "Mr. M.MuthuRaja Thivakar M.E(GeoTech)",
-      experience: "4 Years of Experience",
-      role: "GeoTechnical Engineer",
-      qualification: "",
-    },
-    {
       name: "Dr. N. Chandrasekar",
       experience: "",
       role: "Sr. Geologist",
