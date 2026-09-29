@@ -15,9 +15,9 @@ import { Compass, Menu, X } from "lucide-react"
 import { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 const links = [
-    { label: "Builders", href: "/" },
+    { label: "Geo Service", href: "/" },
     { label: "Survey", href: "/survey" },
-    { label: "Geo Service", href: "/geo-service" },
+    { label: "Builders", href: "/home" },
     { label: "Contact", href: "/contact" },
     { label: "About Us", href: "/about" },
 ]

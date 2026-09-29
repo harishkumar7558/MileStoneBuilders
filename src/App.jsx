@@ -20,11 +20,11 @@ function App() {
 
       <Routes>
 
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<GeoService />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/survey" element={<SurveyPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutUsPage />} />
-        <Route path="/geo-service" element={<GeoService />} />
       </Routes>
 
     </BrowserRouter>
