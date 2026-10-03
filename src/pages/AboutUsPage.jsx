@@ -1,233 +1,235 @@
-'use client'
-
-import { motion, LazyMotion, domAnimation } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import {
-    Building2, Users, Trophy, Globe, Shield, Lightbulb,
-    Award, Target, Zap, CheckCircle2, ArrowRight, Star
-} from "lucide-react"
-import { useEffect } from "react"
-import BlurText from "@/components/BlurText"
-import { useNavigate } from "react-router-dom"
-import director from '@/assets/MuthuRaja.png'
-import director1 from '@/assets/Mukesh.png'
+import heroImg from "@/assets/soil-investigation-1.jpg"
+import mukeshImg from "@/assets/portrait-mukesh.jpg"
+import muthuRajaImg from "@/assets/portrait-muthuraja.jpg"
+import ActionButton from "@/components/site/ActionButton"
+import CredentialsSection from "@/components/site/CredentialsSection"
+import CTASection from "@/components/site/CTASection"
+import { EASE_OUT } from "@/components/site/motion"
+import PageHero from "@/components/site/PageHero"
+import { RevealGroup, RevealItem } from "@/components/site/Reveal"
+import SectionHeading from "@/components/site/SectionHeading"
+import StatsSection from "@/components/site/StatsSection"
+import TechnicalBackdrop from "@/components/site/TechnicalBackdrop"
+import TiltCard from "@/components/site/TiltCard"
+import { CREDENTIALS, KEY_FIGURES } from "@/data/site"
 import Footer from "@/layouts/Footer"
+import { cn } from "@/lib/utils"
+import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion"
+import { Award, Compass, Layers, Lightbulb, Shield, Target, Users, Zap } from "lucide-react"
+import { useRef } from "react"
 
-const AboutUsPage = () => {
-    const navigate = useNavigate()
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+const DIRECTORS = [
+  { img: mukeshImg, name: "Mukesh", title: "Director", detail: "B.E · Surveyor · 13+ years in surveying" },
+  { img: muthuRajaImg, name: "Muthuraja", title: "Director", detail: "M.E · Geo-Technical · 4 years of expertise" },
+]
 
-    const container = {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } }
-    }
+// Founding story, as told in the company description.
+const STORY = [
+  { label: "Surveying roots", text: "Mukesh B.E (Surveyor) brings 13+ years of field surveying — boundary, topographic and infrastructure surveys." },
+  { label: "Geotechnical depth", text: "Muthuraja M.E (Geo-Technical) adds 4 years of Geo-Technical expertise in soil investigation and testing." },
+  { label: "MilestoneBuilders", text: "Two passionate professionals combine experience and innovation to deliver precise engineering solutions." },
+  { label: "Trust & integrity", text: "Reliable, innovative, and value-driven construction solutions — delivered across India." },
+]
 
-    const item = {
-        hidden: { opacity: 0, y: 30 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }
-    }
+const VALUES = [
+  { icon: Shield, title: "Integrity", desc: "Highest ethical standards & transparency" },
+  { icon: Lightbulb, title: "Innovation", desc: "Cutting-edge tech & modern methods" },
+  { icon: Award, title: "Excellence", desc: "Quality beyond industry standards" },
+  { icon: Users, title: "Collaboration", desc: "Strong partnerships for shared success" },
+]
 
-    const values = [
-        { icon: Shield, title: "Integrity", desc: "Highest ethical standards & transparency" },
-        { icon: Lightbulb, title: "Innovation", desc: "Cutting-edge tech & modern methods" },
-        { icon: Award, title: "Excellence", desc: "Quality beyond industry standards" },
-        { icon: Users, title: "Collaboration", desc: "Strong partnerships for shared success" }
-    ]
-
-    return (
-        <LazyMotion features={domAnimation}>
-            <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 text-gray-800 overflow-hidden">
-                {/* Hero Section */}
-                <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 text-center mt-16 sm:mt-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="max-w-7xl mx-auto"
-                    >
-                        <div className="inline-flex items-center gap-2 px-4 py-2 mb-4 sm:mb-6 bg-white/90 backdrop-blur rounded-full border border-orange-200 shadow-sm">
-                            <Star className="w-4 h-4 text-orange-600" />
-                            <span className="text-xs sm:text-sm font-medium text-orange-700">ABOUT US</span>
-                        </div>
-
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 1, delay: 0.6 }}
-                            className="mb-8 sm:mb-10"
-                        >
-                            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black tracking-tighter leading-tight">
-                                <span className="block text-orange-900">Building Dreams,</span>
-                                <span className="block text-amber-600 mt-1 sm:mt-2 md:mt-3 lg:-mt-4">Creating Legacies</span>
-                            </h1>
-                        </motion.div>
-
-                        <p className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl mx-auto font-medium px-4">
-                            Delivering reliable, innovative, and value-driven construction solutions across India.
-                        </p>
-                    </motion.div>
-                </section>
-
-                {/* Our Story */}
-                <section className="relative py-16 sm:py-20 md:py-24 lg:py-28 px-4 sm:px-6 overflow-hidden bg-gradient-to-b from-white via-orange-50/20 to-white">
-                    <div className="absolute top-0 left-0 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[450px] lg:h-[450px] bg-orange-400/20 blur-[100px] sm:blur-[120px] lg:blur-[140px] rounded-full pointer-events-none"></div>
-                    <div className="absolute bottom-0 right-0 w-[350px] h-[350px] sm:w-[450px] sm:h-[450px] lg:w-[500px] lg:h-[500px] bg-amber-300/30 blur-[120px] sm:blur-[140px] lg:blur-[160px] rounded-full pointer-events-none"></div>
-
-                    <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-20 items-center relative z-10">
-                        {/* Left Content Block */}
-                        <motion.div
-                            initial={{ opacity: 0, x: -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="px-4 sm:px-6 lg:px-0"
-                        >
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
-                                <span className="bg-gradient-to-r from-gray-900 to-orange-600 bg-clip-text text-transparent">
-                                    Leadership That
-                                </span>
-                                <br />
-                                Inspires Excellence
-                            </h2>
-
-                            <p className="mt-4 sm:mt-6 text-base sm:text-lg text-gray-600 leading-relaxed">
-                                MilestoneBuilders was established by two passionate professionals — Mukesh B.E(Surveyor), with 13+ years in surveying, and Muthuraja M.E(Geo-Technical), with 4 years of Geo-Technical expertise. Together, they combine experience and innovation to deliver precise engineering solutions with trust and integrity.
-                            </p>
-
-                            <motion.button
-                                whileHover={{ scale: 1.05, y: -2 }}
-                                transition={{ type: "spring", stiffness: 120 }}
-                                onClick={() => navigate("/contact")}
-                                className="mt-6 sm:mt-8 md:mt-10 px-6 sm:px-8 md:px-10 py-3 sm:py-4 bg-gradient-to-r from-orange-600 to-amber-600 text-white font-semibold rounded-full shadow-xl hover:shadow-2xl transition-all flex gap-2 items-center text-sm sm:text-base"
-                            >
-                                Contact Us <ArrowRight size={18} className="w-4 h-4 sm:w-5 sm:h-5" />
-                            </motion.button>
-                        </motion.div>
-
-                        {/* Director Images */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                            className="flex flex-col sm:flex-row gap-6 sm:gap-8 md:gap-10 justify-center items-center px-4 sm:px-6 lg:px-0"
-                        >
-                            {[
-                                { img: director1, name: "Mukesh - Director" },
-                                { img: director, name: "Muthuraja - Director" }
-                            ].map((person, index) => (
-                                <motion.div
-                                    key={index}
-                                    whileHover={{ scale: 1.05 }}
-                                    transition={{ type: "spring", damping: 12 }}
-                                    className="relative group w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 lg:w-72 lg:h-72 rounded-full overflow-hidden shadow-[0_0_30px_-8px_rgba(255,136,0,0.45)] sm:shadow-[0_0_40px_-10px_rgba(255,136,0,0.45)] border-[2px] sm:border-[3px] border-white bg-white/40 backdrop-blur-xl"
-                                >
-                                    <img
-                                        src={person.img}
-                                        alt={person.name}
-                                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
-                                    />
-
-                                    <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-black/50 text-white backdrop-blur-md px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-lg">
-                                        {person.name}
-                                    </div>
-
-                                    <div className="absolute inset-0 rounded-full border-2 border-orange-400/40 opacity-0 group-hover:opacity-100 blur-sm transition duration-500"></div>
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    </div>
-                </section>
-
-                {/* Vision & Mission */}
-                <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
-                    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
-                        <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4 }} className="h-full">
-                            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border border-blue-100 h-full">
-                                <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                                    <div className="p-2 sm:p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg sm:rounded-xl">
-                                        <Target className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" />
-                                    </div>
-                                    <h3 className="text-xl sm:text-2xl font-bold">Our Vision</h3>
-                                </div>
-                                <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-                                    To set the benchmark in sustainable construction through innovation, excellence, and integrity.
-                                </p>
-                            </div>
-                        </motion.div>
-
-                        <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.4 }} className="h-full">
-                            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl border border-orange-200 h-full">
-                                <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                                    <div className="p-2 sm:p-3 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg sm:rounded-xl">
-                                        <Zap className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-white" />
-                                    </div>
-                                    <h3 className="text-xl sm:text-2xl font-bold">Our Mission</h3>
-                                </div>
-                                <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-                                    Deliver exceptional engineering solutions with superior craftsmanship, safety, and value for every stakeholder.
-                                </p>
-                            </div>
-                        </motion.div>
-                    </div>
-                </section>
-
-                {/* Core Values */}
-                <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-white/50">
-                    <div className="max-w-6xl mx-auto text-center">
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-orange-700 bg-clip-text text-transparent">
-                            Core Values
-                        </h2>
-                        <p className="mt-2 sm:mt-4 text-gray-600 text-sm sm:text-base">The foundation of everything we do</p>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-8 sm:mt-12">
-                            {values.map((v, i) => (
-                                <motion.div
-                                    key={i}
-                                    whileHover={{ y: -4 }}
-                                    className="bg-white p-5 sm:p-6 rounded-xl sm:rounded-2xl shadow-lg border border-orange-100 text-center h-full"
-                                >
-                                    <v.icon className="w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-3 sm:mb-4 text-orange-600" />
-                                    <h4 className="font-bold text-base sm:text-lg">{v.title}</h4>
-                                    <p className="text-xs sm:text-sm text-gray-600 mt-1 sm:mt-2">{v.desc}</p>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* CTA Section */}
-                <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 text-center">
-                    <div className="max-w-4xl mx-auto">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            className="bg-gradient-to-r from-orange-500 to-amber-500 p-6 sm:p-8 md:p-10 lg:p-12 rounded-2xl sm:rounded-3xl shadow-2xl text-white"
-                        >
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">Ready to Build Together?</h2>
-                            <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-95 px-2">
-                                Let's turn your vision into reality with excellence and trust.
-                            </p>
-                            <div className="flex items-center justify-center">
-                                <Button
-                                    onClick={() => navigate(`/contact`)}
-                                    size="lg"
-                                    className="bg-white text-orange-600 hover:bg-gray-100 font-bold px-6 sm:px-8 md:px-10 py-4 sm:py-5 md:py-6 rounded-full shadow-xl text-sm sm:text-base"
-                                >
-                                    Get Started Now <ArrowRight className="ml-2 sm:ml-3 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                                </Button>
-                            </div>
-                        </motion.div>
-                    </div>
-                </section>
-
-                {/* Footer */}
-               <Footer  />
-            </div>
-        </LazyMotion>
-    )
+// The clip-path wipe lives on an inner layer: IntersectionObserver measures the target's clipped area,
+// so observing a fully clipped element would never report it as visible.
+const wipe = {
+  hidden: { clipPath: "inset(100% 0 0 0 round 24px)" },
+  show: { clipPath: "inset(0% 0 0 0 round 24px)", transition: { duration: 1.1, ease: EASE_OUT } },
 }
+
+const DirectorPortrait = ({ person, className }) => (
+  <motion.div
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: true, amount: 0.3 }}
+    className={cn("group relative self-start rounded-3xl shadow-lift", className)}
+  >
+    <motion.figure variants={wipe} className="relative overflow-hidden rounded-3xl bg-ink-100">
+      <img
+        src={person.img}
+        alt={`${person.name} — ${person.title}`}
+        loading="lazy"
+        decoding="async"
+        className="aspect-[4/5] w-full object-cover object-top grayscale-[25%] transition-[transform,filter] duration-700 ease-out-expo group-hover:scale-105 group-hover:grayscale-0"
+      />
+      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950/90 via-ink-950/40 to-transparent p-4 pt-16 text-white sm:p-5 sm:pt-20">
+        <p className="t-eyebrow text-brand-300">{person.title}</p>
+        <p className="mt-1 font-display text-lg font-semibold sm:text-xl">{person.name}</p>
+        <p className="mt-1 text-[13px] leading-snug text-white/70 [@media(hover:hover)]:max-h-0 [@media(hover:hover)]:overflow-hidden [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:transition-all [@media(hover:hover)]:duration-500 [@media(hover:hover)]:group-hover:max-h-12 [@media(hover:hover)]:group-hover:opacity-100">
+          {person.detail}
+        </p>
+      </figcaption>
+    </motion.figure>
+  </motion.div>
+)
+
+/** Glass fact card that floats in front of the portraits. */
+const FloatingFact = ({ icon: Icon, value, label, className, z = 60 }) => (
+  <div className={cn("absolute z-10", className)} style={{ transform: `translateZ(${z}px)` }}>
+    <div className="glass-light flex items-center gap-3 rounded-2xl p-2.5 pr-4 shadow-lift">
+      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink-950 text-brand-300">
+        <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+      </span>
+      <span>
+        <span className="block font-display text-base font-bold leading-none text-ink-900">{value}</span>
+        <span className="mt-1 block text-[12px] text-ink-500">{label}</span>
+      </span>
+    </div>
+  </div>
+)
+
+const StoryTimeline = () => {
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 75%", "end 60%"] })
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
+
+  return (
+    <div ref={ref} className="relative">
+      <div className="absolute bottom-0 left-[7px] top-0 w-px bg-ink-900/10" />
+      <motion.div className="absolute bottom-0 left-[7px] top-0 w-px origin-top bg-brand-500" style={{ scaleY: reduce ? 1 : progress }} />
+      <RevealGroup as="ol" className="space-y-10" gap={0.14}>
+        {STORY.map((step, i) => (
+          <RevealItem as="li" key={step.label} className="relative pl-12">
+            <span className="absolute left-0 top-1.5 h-[15px] w-[15px] rounded-full border-2 border-brand-500 bg-white" />
+            <p className="t-eyebrow text-ink-400"><span className="tabular text-brand-700">{`0${i + 1}`}</span> — {step.label}</p>
+            <p className="mt-3 text-[16px] leading-relaxed text-ink-600">{step.text}</p>
+          </RevealItem>
+        ))}
+      </RevealGroup>
+    </div>
+  )
+}
+
+const AboutUsPage = () => (
+  <div className="overflow-x-clip">
+    <PageHero
+      layout="full"
+      compact
+      overlap
+      eyebrow="About us"
+      title={[{ text: "Building Dreams," }, { text: "Creating Legacies", className: "text-brand-400" }]}
+      lead="Delivering reliable, innovative, and value-driven construction solutions across India."
+      image={heroImg}
+      imagePosition="center 45%"
+      actions={<ActionButton to="/contact" magnetic>Contact us</ActionButton>}
+    />
+
+    <StatsSection figures={KEY_FIGURES} />
+
+    {/* 01 — Leadership */}
+    <section className="section bg-white">
+      <div className="container grid gap-16 lg:grid-cols-12 lg:gap-20">
+        <div className="lg:col-span-5">
+          <SectionHeading
+            index="01"
+            eyebrow="Leadership"
+            title="Leadership that inspires excellence."
+            lead="MilestoneBuilders was established by two passionate professionals — Mukesh B.E(Surveyor), with 13+ years in surveying, and Muthuraja M.E(Geo-Technical), with 4 years of Geo-Technical expertise. Together, they combine experience and innovation to deliver precise engineering solutions with trust and integrity."
+          />
+          <div className="mt-14">
+            <StoryTimeline />
+          </div>
+        </div>
+        <div className="lg:col-span-7">
+          <div className="lg:sticky lg:top-28">
+            <TiltCard max={4}>
+              <div className="preserve-3d relative grid grid-cols-2 gap-4 pb-6 pt-2 sm:gap-6">
+                <DirectorPortrait person={DIRECTORS[0]} />
+                <DirectorPortrait person={DIRECTORS[1]} className="mt-14 sm:mt-24" />
+                <FloatingFact icon={Compass} value="13+ years" label="Surveying" className="-left-2 top-[46%] sm:-left-6" z={70} />
+                <FloatingFact icon={Layers} value="M.E" label="Geo-Technical" className="-right-2 top-2 sm:-right-4" z={90} />
+              </div>
+            </TiltCard>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* 02 — Vision & Mission */}
+    <section className="section bg-ink-50">
+      <div className="container">
+        <SectionHeading index="02" eyebrow="Purpose" title="What drives every project we take on." />
+        <RevealGroup className="mt-14 grid gap-5 md:grid-cols-2">
+          <RevealItem className="h-full">
+            <TiltCard max={4} className="h-full" innerClassName="rounded-3xl">
+              <div className="relative isolate h-full overflow-hidden rounded-3xl bg-ink-950 p-8 text-white shadow-float sm:p-10">
+                <TechnicalBackdrop tone="dark" flow={false} />
+                <div className="glow-brand absolute inset-0 -z-10" aria-hidden="true" />
+                <div className="relative">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-400 text-ink-950">
+                    <Target className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                  <p className="t-eyebrow mt-10 text-white/50">Our vision</p>
+                  <p className="mt-4 font-display text-[clamp(1.35rem,2.2vw,1.85rem)] font-semibold leading-snug tracking-[-0.02em]">
+                    To set the benchmark in sustainable construction through innovation, excellence, and integrity.
+                  </p>
+                </div>
+              </div>
+            </TiltCard>
+          </RevealItem>
+          <RevealItem className="h-full">
+            <TiltCard max={4} className="h-full" innerClassName="rounded-3xl">
+              <div className="h-full rounded-3xl border border-ink-900/[0.08] bg-white p-8 shadow-soft sm:p-10">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-ink-950 text-brand-300">
+                  <Zap className="h-6 w-6" aria-hidden="true" />
+                </span>
+                <p className="t-eyebrow mt-10 text-ink-400">Our mission</p>
+                <p className="mt-4 font-display text-[clamp(1.35rem,2.2vw,1.85rem)] font-semibold leading-snug tracking-[-0.02em] text-ink-900">
+                  Deliver exceptional engineering solutions with superior craftsmanship, safety, and value for every stakeholder.
+                </p>
+              </div>
+            </TiltCard>
+          </RevealItem>
+        </RevealGroup>
+      </div>
+    </section>
+
+    {/* 03 — Core values */}
+    <section className="section bg-white">
+      <div className="container">
+        <SectionHeading index="03" eyebrow="Core values" title="The foundation of everything we do." />
+        <RevealGroup as="ul" className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+          {VALUES.map((value, i) => (
+            <RevealItem
+              as="li"
+              key={value.title}
+              className="group relative overflow-hidden rounded-2xl border border-ink-900/[0.08] bg-white p-7 shadow-soft transition-[transform,box-shadow] duration-300 ease-out-expo hover:-translate-y-1 hover:shadow-lift sm:p-8"
+            >
+              <span className="absolute left-7 right-7 top-0 h-0.5 origin-left scale-x-0 rounded-full bg-brand-500 transition-transform duration-500 ease-out-expo group-hover:scale-x-100" aria-hidden="true" />
+              <div className="flex items-center justify-between">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-50 text-brand-700 ring-1 ring-brand-200/70 transition-transform duration-500 ease-out-expo group-hover:-translate-y-1 group-hover:-rotate-6">
+                  <value.icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                </span>
+                <span className="t-eyebrow tabular text-ink-300" aria-hidden="true">{`0${i + 1}`}</span>
+              </div>
+              <h3 className="t-h3 mt-12 text-ink-900">{value.title}</h3>
+              <p className="mt-2 text-[15px] text-ink-500">{value.desc}</p>
+            </RevealItem>
+          ))}
+        </RevealGroup>
+      </div>
+    </section>
+
+    <CredentialsSection index="04" credentials={CREDENTIALS} className="bg-ink-50" />
+
+    <CTASection
+      eyebrow="Work with us"
+      title="Ready to Build Together?"
+      lead="Let's turn your vision into reality with excellence and trust."
+      actions={<ActionButton to="/contact" magnetic>Get started now</ActionButton>}
+    />
+
+    <Footer />
+  </div>
+)
 
 export default AboutUsPage

@@ -1,287 +1,416 @@
-
-
-import milestone from "@/assets/milestone1.png"
-import whatsappLogo from '@/assets/whatsapp.png'
-import { Button } from "@/components/ui/button"
-import { Checkbox } from '@/components/ui/checkbox'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Textarea } from '@/components/ui/textarea'
+import logo from "@/assets/logo-mark.png"
+import ActionButton, { SwapArrow } from "@/components/site/ActionButton"
+import { useLeadDialog } from "@/components/site/LeadDialogContext"
+import { EASE_OUT } from "@/components/site/motion"
+import { CONTACT, DIVISIONS, PRIMARY_NAV } from "@/data/site"
 import { cn } from "@/lib/utils"
-import { motion } from "framer-motion"
-import { Compass, Menu, X } from "lucide-react"
-import { useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom"
-const links = [
-    { label: "Geo Services", href: "/" },
-    { label: "Survey", href: "/survey" },
-    { label: "Builders", href: "/home" },
-    { label: "Contact", href: "/contact" },
-    { label: "About Us", href: "/about" },
-]
+import * as DialogPrimitive from "@radix-ui/react-dialog"
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion"
+import { ArrowRight, ArrowUpRight, ChevronDown, Mail, Phone, X } from "lucide-react"
+import { useEffect, useId, useRef, useState } from "react"
+import { Link, NavLink, useLocation } from "react-router-dom"
+
+const DIVISION_PATHS = DIVISIONS.map((d) => d.href)
+const HOVER_CLOSE_DELAY = 140
+
+const Brand = ({ solid }) => (
+  <Link to="/" className="group flex items-center gap-3 rounded-lg" aria-label="Milestone Groups — home">
+    <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-ink-900/5 transition-transform duration-500 ease-out-expo group-hover:rotate-[-8deg] group-hover:scale-105">
+      <img src={logo} alt="" className="h-9 w-9 object-contain" />
+    </span>
+    <span className="leading-none">
+      <span className={cn("block font-display text-[17px] font-bold tracking-[0.02em] transition-colors duration-300", solid ? "text-ink-900" : "text-white")}>
+        MILESTONE
+      </span>
+      <span className={cn("mt-1 block font-mono text-[10px] font-medium tracking-[0.32em] transition-colors duration-300", solid ? "text-brand-600" : "text-brand-300")}>
+        GROUPS
+      </span>
+    </span>
+  </Link>
+)
+
+const MenuIcon = ({ open, solid }) => (
+  <span className="relative block h-3.5 w-5" aria-hidden="true">
+    {[0, 1].map((i) => (
+      <span
+        key={i}
+        className={cn(
+          "absolute left-0 h-[1.5px] w-full rounded-full transition-all duration-300 ease-out-expo",
+          solid ? "bg-ink-900" : "bg-white",
+          i === 0 ? (open ? "top-1.5 rotate-45" : "top-0") : (open ? "top-1.5 -rotate-45" : "top-3 w-3.5"),
+        )}
+      />
+    ))}
+  </span>
+)
+
+const linkTone = (solid, active) =>
+  solid
+    ? (active ? "text-ink-900" : "text-ink-500 hover:text-ink-900")
+    : (active ? "text-white" : "text-white/70 hover:text-white")
+
+const ActiveBar = () => (
+  <motion.span
+    layoutId="nav-active"
+    className="absolute bottom-1 left-4 right-4 h-[2px] rounded-full bg-brand-400"
+    transition={{ type: "spring", stiffness: 380, damping: 32 }}
+  />
+)
+
+/** Desktop "Services" mega-menu — a disclosure (button + panel of links), opened by hover, click or keyboard. */
+const ServicesMenu = ({ solid, active, onQuote }) => {
+  const [open, setOpen] = useState(false)
+  const closeTimer = useRef()
+  const buttonRef = useRef(null)
+  const wrapperRef = useRef(null)
+  const panelId = useId()
+  const location = useLocation()
+
+  // Close when the route changes (render-phase adjustment).
+  const [lastPath, setLastPath] = useState(location.pathname)
+  if (lastPath !== location.pathname) {
+    setLastPath(location.pathname)
+    setOpen(false)
+  }
+
+  useEffect(() => () => clearTimeout(closeTimer.current), [])
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e) => {
+      if (e.key === "Escape") { setOpen(false); buttonRef.current?.focus() }
+    }
+    const onDown = (e) => { if (!wrapperRef.current?.contains(e.target)) setOpen(false) }
+    document.addEventListener("keydown", onKey)
+    document.addEventListener("pointerdown", onDown)
+    return () => { document.removeEventListener("keydown", onKey); document.removeEventListener("pointerdown", onDown) }
+  }, [open])
+
+  const hoverOpen = (e) => {
+    if (e.pointerType !== "mouse") return
+    clearTimeout(closeTimer.current)
+    setOpen(true)
+  }
+  const hoverClose = (e) => {
+    if (e.pointerType !== "mouse") return
+    closeTimer.current = setTimeout(() => setOpen(false), HOVER_CLOSE_DELAY)
+  }
+
+  return (
+    <li
+      ref={wrapperRef}
+      className="static"
+      onPointerEnter={hoverOpen}
+      onPointerLeave={hoverClose}
+      onBlur={(e) => { if (!wrapperRef.current?.contains(e.relatedTarget)) setOpen(false) }}
+    >
+      <button
+        ref={buttonRef}
+        type="button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen((v) => !v)}
+        className={cn("group relative flex items-center gap-1.5 rounded-lg px-4 py-2 text-[14px] font-medium transition-colors duration-200", linkTone(solid, active || open))}
+      >
+        Services
+        <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-300 ease-out-expo", open && "rotate-180")} aria-hidden="true" />
+        {active && <ActiveBar />}
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id={panelId}
+            initial={{ opacity: 0, y: 10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 6, scale: 0.98, transition: { duration: 0.15 } }}
+            transition={{ duration: 0.25, ease: EASE_OUT }}
+            className="absolute inset-x-0 top-full mx-auto w-[min(780px,calc(100vw-2rem))] origin-top pt-3"
+          >
+            <div className="rounded-2xl border border-ink-900/[0.08] bg-white p-2 shadow-lift">
+              <ul className="grid grid-cols-3 gap-1">
+                {DIVISIONS.map((division) => (
+                  <li key={division.href}>
+                    <NavLink
+                      to={division.href}
+                      end
+                      className={({ isActive }) => cn(
+                        "group/item flex h-full flex-col rounded-xl p-4 transition-colors duration-200 hover:bg-ink-900/[0.04] focus-visible:bg-ink-900/[0.04]",
+                        isActive && "bg-ink-900/[0.035]",
+                      )}
+                    >
+                      <span className="flex items-center justify-between">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-ink-950 text-brand-300 transition-[transform,background-color,color] duration-300 ease-out-expo group-hover/item:-rotate-6 group-hover/item:bg-brand-400 group-hover/item:text-ink-950">
+                          <division.icon className="h-[18px] w-[18px]" strokeWidth={1.75} aria-hidden="true" />
+                        </span>
+                        <ArrowUpRight className="h-4 w-4 -translate-x-1 translate-y-1 text-ink-400 opacity-0 transition-all duration-300 ease-out-expo group-hover/item:translate-x-0 group-hover/item:translate-y-0 group-hover/item:opacity-100" aria-hidden="true" />
+                      </span>
+                      <span className="mt-4 font-display text-[15px] font-semibold text-ink-900">{division.label}</span>
+                      <span className="mt-1.5 text-[13px] leading-relaxed text-ink-500">{division.description}</span>
+                      <span className="mt-4 space-y-1.5 border-t border-ink-900/[0.06] pt-3">
+                        {division.highlights.map((h) => (
+                          <span key={h} className="flex items-center gap-2 text-[12.5px] text-ink-600">
+                            <span className="h-1 w-1 shrink-0 rotate-45 bg-brand-500" aria-hidden="true" />
+                            {h}
+                          </span>
+                        ))}
+                      </span>
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-1 flex items-center justify-between gap-4 rounded-xl bg-ink-950 px-4 py-3 text-white">
+                <p className="text-[13px] text-white/65">
+                  Not sure which service fits? <span className="font-medium text-white">Talk to an engineer.</span>
+                </p>
+                <button
+                  type="button"
+                  onClick={() => { setOpen(false); onQuote() }}
+                  className="group inline-flex shrink-0 items-center gap-2 rounded-lg px-2 py-1 text-[13px] font-semibold text-brand-300 transition-colors hover:text-brand-200"
+                >
+                  Get a quote <SwapArrow className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </li>
+  )
+}
 
 const Navbar = () => {
-    const navigate = useNavigate()
-    const location = useLocation()
-    const phoneNumber = "916369051199";
-    const defaultMessage = "Hi, I came from your website! I need some information about your services.";
-    const [isFormPopupOpen, setIsFormPopupOpen] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        phone: '',
-        message: defaultMessage
-    });
+  const { openLeadDialog } = useLeadDialog()
+  const location = useLocation()
+  const { scrollY, scrollYProgress } = useScroll()
+  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40 })
+  const [solid, setSolid] = useState(false)
+  const [hidden, setHidden] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
+  useMotionValueEvent(scrollY, "change", (y) => {
+    const prev = scrollY.getPrevious() ?? 0
+    setSolid(y > 24)
+    setHidden(y > 480 && y > prev + 4)
+    if (y < prev - 4) setHidden(false)
+  })
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', formData);
-        setIsSubmitted(true);
-        setTimeout(() => {
-            const message = `Hi, my name is ${formData.name}. ${formData.message}\n\nContact Info:\nPhone: ${formData.phone}`;
-            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-            window.open(url, "_blank");
-            setIsFormPopupOpen(false);
-        }, 3000);
-    };
+  // Close the mobile menu on navigation and reset the header state (render-phase adjustment).
+  const [lastPath, setLastPath] = useState(location.pathname)
+  if (lastPath !== location.pathname) {
+    setLastPath(location.pathname)
+    setMenuOpen(false)
+    setHidden(false)
+  }
 
-    const handleFormChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-    const isActive = (path) => location.pathname === path
+  const isSolid = solid && !menuOpen
+  const onDivision = DIVISION_PATHS.includes(location.pathname)
 
-    return (
-        <div className="fixed inset-x-0 top-4 z-50 flex justify-center pointer-events-none">
-            <motion.nav
-                initial={{ y: -100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                className={cn(
-                    "pointer-events-auto flex w-[95%] max-w-5xl items-center justify-between",
-                    "rounded-2xl border border-white/20 bg-white/10",
-                    "backdrop-blur-2xl shadow-2xl shadow-black/30",
-                    "px-5 py-4 md:px-8 md:py-5"
-                )}
-            >
-                {/* Logo & Brand */}
-                <div
-                    className="flex items-center gap-3 cursor-pointer"
-                    onClick={() => navigate("/")}
-                >
-                    <div className="relative">
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 blur-xl opacity-70 scale-110" />
-                        <img
-                            src={milestone}
-                            alt="Milestone Builders Logo"
-                            className="relative h-14 w-14 rounded-full object-cover border-4 border-white/30 shadow-2xl"
-                        />
-                    </div>
-                    <div>
-                        <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent">
-                            MILESTONE
-                        </h1>
-                        <p className="text-sm font-bold text-amber-600 -mt-1">GROUPS</p>
-                    </div>
-                </div>
+  return (
+    <>
+      <motion.header
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: hidden && !menuOpen ? -100 : 0, opacity: 1 }}
+        transition={{ duration: 0.45, ease: EASE_OUT }}
+        className="fixed inset-x-0 top-0 z-50 pt-3"
+      >
+        <div className="container">
+          <nav
+            aria-label="Main"
+            className={cn(
+              "relative -mx-3 flex h-16 items-center justify-between gap-6 rounded-2xl border px-3 transition-[background-color,border-color,box-shadow] duration-500 sm:-mx-4 sm:px-4",
+              isSolid ? "glass-light shadow-soft" : "border-transparent",
+            )}
+          >
+            <Brand solid={isSolid} />
 
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex items-center gap-1">
-                    {links.map((link) => (
-                        <button
-                            key={link.label}
-                            onClick={() => navigate(link.href)}
-                            className={cn(
-                                "relative px-5 py-2.5 text-sm font-medium transition-all duration-300 rounded-full",
-                                isActive(link.href)
-                                    ? "text-black font-semibold"
-                                    : "text-black/80 hover:text-black"
-                            )}
-                        >
-                            {link.label}
-                            {isActive(link.href) && (
-                                <motion.span
-                                    layoutId="navbar-active"
-                                    className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-200/50 to-rose-200/50 -z-10"
-                                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                />
-                            )}
-                            <span
-                                className={cn(
-                                    "absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 w-0 bg-gradient-to-r from-amber-500 to-rose-500 transition-all duration-300",
-                                    "group-hover:w-full"
-                                )}
-                            />
-                        </button>
-                    ))}
-
-                    <Button
-                        size="lg"
-                        onClick={() => setIsFormPopupOpen(true)}
-                        className="ml-6 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-105 transition-all duration-300 border border-white/20"
+            <ul className="hidden items-center lg:flex">
+              {PRIMARY_NAV.map((item) =>
+                item.children ? (
+                  <ServicesMenu key={item.label} solid={isSolid} active={onDivision} onQuote={openLeadDialog} />
+                ) : item.href.includes("#") ? (
+                  <li key={item.href}>
+                    <Link
+                      to={item.href}
+                      className={cn("relative block rounded-lg px-4 py-2 text-[14px] font-medium transition-colors duration-200", linkTone(isSolid, false))}
                     >
-                        Get Quote
-                    </Button>
-                </div>
+                      {item.label}
+                    </Link>
+                  </li>
+                ) : (
+                  <li key={item.href}>
+                    <NavLink
+                      to={item.href}
+                      end
+                      className={({ isActive }) => cn("relative block rounded-lg px-4 py-2 text-[14px] font-medium transition-colors duration-200", linkTone(isSolid, isActive))}
+                    >
+                      {({ isActive }) => (
+                        <>
+                          {item.label}
+                          {isActive && <ActiveBar />}
+                        </>
+                      )}
+                    </NavLink>
+                  </li>
+                ),
+              )}
+            </ul>
 
-                {/* Mobile Menu */}
-                <div className="md:hidden">
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md"
-                            >
-                                <Menu className="h-6 w-6 text-black" />
-                            </Button>
-                        </SheetTrigger>
+            <div className="flex items-center gap-3">
+              <a
+                href={CONTACT.phones[0].href}
+                className={cn(
+                  "hidden items-center gap-2 rounded-lg font-mono text-[12px] tracking-wide transition-colors xl:flex",
+                  isSolid ? "text-ink-500 hover:text-ink-900" : "text-white/60 hover:text-white",
+                )}
+              >
+                <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                {CONTACT.phones[0].display}
+              </a>
+              <ActionButton size="md" onClick={openLeadDialog} magnetic className="hidden sm:inline-flex">
+                Get Quote
+              </ActionButton>
+              <button
+                type="button"
+                onClick={() => setMenuOpen((v) => !v)}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-menu"
+                aria-label={menuOpen ? "Close menu" : "Open menu"}
+                className={cn(
+                  "flex h-11 w-11 items-center justify-center rounded-xl ring-1 ring-inset transition-colors lg:hidden",
+                  isSolid ? "ring-ink-900/15 hover:bg-ink-900/5" : "ring-white/25 hover:bg-white/10",
+                )}
+              >
+                <MenuIcon open={menuOpen} solid={isSolid} />
+              </button>
+            </div>
 
-                        <SheetContent
-                            side="top"
-                            className="border-0 bg-gradient-to-b from-black/95 via-slate-900/98 to-slate-950/100 backdrop-blur-3xl pt-8"
-                        >
-                            <div className="flex items-center justify-between mb-10">
-                                <div className="flex items-center gap-3">
-                                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 p-0.5">
-                                        <div className="h-full w-full rounded-full bg-white flex items-center justify-center">
-                                            <Compass className="h-7 w-7 text-orange-600" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h2 className="text-xl font-bold text-white">Milestone</h2>
-                                        <p className="text-xs text-amber-400 font-semibold">BUILDERS</p>
-                                    </div>
-                                </div>
-                                <SheetClose asChild>
-                                    <Button variant="ghost" size="icon" className="rounded-full">
-                                        <X className="h-6 w-6 text-white" />
-                                    </Button>
-                                </SheetClose>
-                            </div>
-
-                            <nav className="flex flex-col gap-3">
-                                {links.map((link) => (
-                                    <SheetClose key={link.label} asChild>
-                                        <button
-                                            onClick={() => navigate(link.href)}
-                                            className={cn(
-                                                "text-left px-6 py-4 rounded-2xl text-lg font-medium transition-all",
-                                                isActive(link.href)
-                                                    ? "bg-gradient-to-r from-amber-500/20 to-rose-500/20 text-white border border-amber-500/30"
-                                                    : "text-white/80 hover:text-white hover:bg-white/5"
-                                            )}
-                                        >
-                                            {link.label}
-                                        </button>
-                                    </SheetClose>
-                                ))}
-                                <SheetClose asChild>
-                                    <Button
-                                        size="lg"
-                                        onClick={() => setIsFormPopupOpen(true)}
-                                        className="mt-6 w-full rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 text-white font-bold text-lg py-7 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
-                                    >
-                                        Get Quote
-                                    </Button>
-                                </SheetClose>
-                            </nav>
-                        </SheetContent>
-                    </Sheet>
-                </div>
-            </motion.nav>
-
-            {/* Initial Lead Form Dialog */}
-            <Dialog open={isFormPopupOpen} onOpenChange={setIsFormPopupOpen}>
-                <DialogContent className="max-w-lg h-[80vh] rounded-2xl p-0 overflow-hidden">
-                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6 text-white">
-                        <DialogHeader>
-                            <DialogTitle className="text-2xl font-bold flex items-center gap-3">
-                                <div className="bg-white/20 p-3 rounded-full">
-                                    <img src={whatsappLogo} alt="WA" className="w-8 h-8" />
-                                </div>
-                                <div>
-                                    <p className="text-xl font-semibold">Let's Start Your Project!</p>
-                                    <p className="text-sm font-medium">Share details for personalized consultation</p>
-                                </div>
-                            </DialogTitle>
-                        </DialogHeader>
-                    </div>
-                    <div className='h-[70vh] overflow-auto mb-2'>
-                        {!isSubmitted ? (
-                            <form onSubmit={handleFormSubmit} className="p-6 grid grid-cols-2 gap-4 ">
-                                <div className="space-y-2">
-                                    <Label htmlFor="name">Full Name *</Label>
-                                    <Input
-                                        id="name"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleFormChange}
-                                        required
-                                        placeholder="Enter your name"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="phone">Phone Number *</Label>
-                                    <Input
-                                        id="phone"
-                                        name="phone"
-                                        type="tel"
-                                        value={formData.phone}
-                                        onChange={handleFormChange}
-                                        required
-                                        placeholder="Enter your phone number"
-                                    />
-                                </div>
-                                <div className="space-y-2 col-span-2">
-                                    <Label htmlFor="message">Message *</Label>
-                                    <Textarea
-                                        id="message"
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleFormChange}
-                                        required
-                                        rows={3}
-                                        placeholder="Tell us about your project..."
-                                    />
-                                </div>
-                                <div className="flex items-center space-x-2 col-span-2">
-                                    <Checkbox id="terms" required />
-                                    <label htmlFor="terms" className="text-sm text-gray-600">I agree to receive updates and offers from Milestone Builders</label>
-                                </div>
-                                <Button type="submit" className="w-full col-span-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 rounded-full h-12 text-lg font-semibold">
-                                    Submit & Connect on WhatsApp
-                                </Button>
-                            </form>
-                        ) : (
-                            <div className="p-10 text-center space-y-6">
-                                <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
-                                    <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 className="text-2xl font-bold">Thank You!</h3>
-                                    <p className="text-gray-600 mt-2">Your submission has been received.</p>
-                                </div>
-                                <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-5 rounded-xl">
-                                    <p className="text-sm font-medium">Redirecting to WhatsApp in a moment...</p>
-                                    <div className="flex justify-center gap-2 mt-3">
-                                        {[0, 0.1, 0.2].map(delay => (
-                                            <div key={delay} className="w-3 h-3 bg-green-500 rounded-full animate-bounce" style={{ animationDelay: `${delay}s` }} />
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </DialogContent>
-            </Dialog>
+            {/* Scroll progress */}
+            <span className="pointer-events-none absolute inset-x-4 bottom-0 h-[2px] overflow-hidden rounded-full" aria-hidden="true">
+              <motion.span
+                className="block h-full origin-left bg-brand-400"
+                style={{ scaleX: progress, opacity: isSolid ? 1 : 0 }}
+              />
+            </span>
+          </nav>
         </div>
-    )
+      </motion.header>
+
+      {/* Mobile menu — Radix dialog for focus trapping + Esc to close */}
+      <DialogPrimitive.Root open={menuOpen} onOpenChange={setMenuOpen}>
+        <AnimatePresence>
+          {menuOpen && (
+            <DialogPrimitive.Portal forceMount>
+              <DialogPrimitive.Content
+                forceMount
+                id="mobile-menu"
+                aria-describedby={undefined}
+                className="fixed inset-0 z-[55] lg:hidden"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+              >
+                <DialogPrimitive.Title className="sr-only">Site navigation</DialogPrimitive.Title>
+                <motion.div
+                  initial={{ clipPath: "inset(0 0 100% 0)" }}
+                  animate={{ clipPath: "inset(0 0 0% 0)" }}
+                  exit={{ clipPath: "inset(0 0 100% 0)" }}
+                  transition={{ duration: 0.55, ease: EASE_OUT }}
+                  className="flex h-full flex-col overflow-y-auto overscroll-contain bg-ink-950 px-5 pb-8 text-white sm:px-8"
+                >
+                  <div className="absolute inset-0 bg-grid-dark opacity-40 mask-fade-edges" aria-hidden="true" />
+                  <div className="glow-brand absolute inset-0" aria-hidden="true" />
+                  <div className="relative flex h-[76px] shrink-0 items-center justify-between pt-3">
+                    <Brand solid={false} />
+                    <DialogPrimitive.Close className="flex h-11 w-11 items-center justify-center rounded-xl text-white ring-1 ring-inset ring-white/25 hover:bg-white/10">
+                      <X className="h-5 w-5" aria-hidden="true" />
+                      <span className="sr-only">Close menu</span>
+                    </DialogPrimitive.Close>
+                  </div>
+
+                  <motion.div
+                    className="relative mt-6"
+                    initial="hidden"
+                    animate="show"
+                    variants={{ hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.18 } } }}
+                  >
+                    <motion.p variants={mobileItem} className="t-eyebrow text-white/40">Services</motion.p>
+                    <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+                      {DIVISIONS.map((division) => (
+                        <motion.li key={division.href} variants={mobileItem}>
+                          <NavLink
+                            to={division.href}
+                            end
+                            onClick={() => setMenuOpen(false)}
+                            className={({ isActive }) => cn(
+                              "group flex h-full items-start gap-4 rounded-2xl border p-4 transition-colors sm:flex-col",
+                              isActive ? "border-brand-400/40 bg-white/[0.06]" : "border-white/10 hover:bg-white/[0.04]",
+                            )}
+                          >
+                            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-400 text-ink-950">
+                              <division.icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                            </span>
+                            <span className="min-w-0 flex-1">
+                              <span className="flex items-center justify-between font-display text-lg font-semibold">
+                                {division.label}
+                                <ArrowRight className="h-4 w-4 text-white/40 sm:hidden" aria-hidden="true" />
+                              </span>
+                              <span className="mt-1 block text-[13px] leading-relaxed text-white/55">{division.description}</span>
+                            </span>
+                          </NavLink>
+                        </motion.li>
+                      ))}
+                    </ul>
+
+                    <ul className="mt-8">
+                      {PRIMARY_NAV.filter((item) => !item.children).map((item, i) => (
+                        <motion.li key={item.href} variants={mobileItem} className="border-b border-white/10">
+                          <NavLink
+                            to={item.href}
+                            end
+                            onClick={() => setMenuOpen(false)}
+                            className={({ isActive }) => cn(
+                              "flex items-baseline gap-5 py-4 font-display text-[28px] font-semibold tracking-[-0.02em] transition-colors sm:text-4xl",
+                              isActive && !item.href.includes("#") ? "text-white" : "text-white/60 hover:text-white",
+                            )}
+                          >
+                            <span className="t-eyebrow tabular text-white/35">{String(i + 1).padStart(2, "0")}</span>
+                            {item.label}
+                          </NavLink>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: EASE_OUT, delay: 0.45 }}
+                    className="relative mt-auto space-y-6 pt-10"
+                  >
+                    <ActionButton onClick={() => { setMenuOpen(false); openLeadDialog() }} className="w-full">
+                      Get Quote
+                    </ActionButton>
+                    <div className="grid gap-3 text-sm text-white/65 sm:grid-cols-2">
+                      <a href={CONTACT.phones[0].href} className="flex min-h-[44px] items-center gap-3 hover:text-white">
+                        <Phone className="h-4 w-4 text-brand-300" aria-hidden="true" /> {CONTACT.phones[0].display}
+                      </a>
+                      <a href={`mailto:${CONTACT.emails[0]}`} className="flex min-h-[44px] items-center gap-3 break-all hover:text-white">
+                        <Mail className="h-4 w-4 shrink-0 text-brand-300" aria-hidden="true" /> {CONTACT.emails[0]}
+                      </a>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </DialogPrimitive.Content>
+            </DialogPrimitive.Portal>
+          )}
+        </AnimatePresence>
+      </DialogPrimitive.Root>
+    </>
+  )
+}
+
+const mobileItem = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT } },
 }
 
 export default Navbar

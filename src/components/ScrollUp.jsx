@@ -1,71 +1,42 @@
-'use client';
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring } from 'framer-motion'
+import { ArrowUp } from 'lucide-react'
+import { useState } from 'react'
 
-import React, { useState, useEffect } from 'react';
-import { ArrowUp } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+const RADIUS = 21
 
+/** Back-to-top control with a scroll-progress ring. */
 const ScrollToTopButton = () => {
-    const [isVisible, setIsVisible] = useState(false);
+    const { scrollY, scrollYProgress } = useScroll()
+    const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40 })
+    const [isVisible, setIsVisible] = useState(false)
 
-    // Show button when page is scrolled down
-    const toggleVisibility = () => {
-        if (window.pageYOffset > 300) {
-            setIsVisible(true);
-        } else {
-            setIsVisible(false);
-        }
-    };
-
-    // Smooth scroll to top
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
-    };
-
-    useEffect(() => {
-        window.addEventListener('scroll', toggleVisibility);
-        return () => window.removeEventListener('scroll', toggleVisibility);
-    }, []);
+    useMotionValueEvent(scrollY, "change", (y) => setIsVisible(y > 600))
 
     return (
         <AnimatePresence>
             {isVisible && (
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                <motion.button
+                    type="button"
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
+                    exit={{ opacity: 0, y: 16 }}
                     transition={{ duration: 0.3 }}
-                    className="fixed bottom-8 left-5 z-50"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    aria-label="Scroll to top"
+                    className="group fixed bottom-5 left-5 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-ink-950/90 text-white shadow-lg backdrop-blur transition-colors hover:bg-ink-900 sm:bottom-6 sm:left-6"
                 >
-                    <Button
-                        onClick={scrollToTop}
-                        size="icon"
-                        className={cn(
-                            "h-12 w-12 rounded-full shadow-lg",
-                            "bg-gradient-to-br from-amber-600 to-amber-600",
-                            "hover:from-amber-700 hover:to-amber-700",
-                            "text-white border-0",
-                            "transition-all duration-300",
-                            "hover:shadow-2xl hover:shadow-amber-500/25"
-                        )}
-                        aria-label="Scroll to top"
-                    >
-                        <motion.div
-                            whileHover={{ scale: 1.2, rotate: 360 }}
-                            whileTap={{ scale: 0.9 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                        >
-                            <ArrowUp className="h-6 w-6" />
-                        </motion.div>
-                    </Button>
-                </motion.div>
+                    <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 48 48" aria-hidden="true">
+                        <circle cx="24" cy="24" r={RADIUS} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
+                        <motion.circle
+                            cx="24" cy="24" r={RADIUS} fill="none" stroke="#F7A928" strokeWidth="2" strokeLinecap="round"
+                            style={{ pathLength: progress }}
+                        />
+                    </svg>
+                    <ArrowUp className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5" />
+                </motion.button>
             )}
         </AnimatePresence>
-    );
-};
+    )
+}
 
-export default ScrollToTopButton;
+export default ScrollToTopButton

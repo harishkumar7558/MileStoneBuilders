@@ -1,471 +1,135 @@
-'use client'
-import BlurText from '@/components/BlurText'
-import LogoLoop from '@/components/LogoLoop'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { LazyMotion, domAnimation, motion } from "framer-motion"
-import { ArrowRight, Award, BadgeCheck, Building2, FlaskConical, Hammer, Layers, MapPin, PenTool, Phone, Ruler, ShieldCheck, Users } from 'lucide-react'
-// Images
-import checkImg from '@/assets/check.png'
-import client1Img from '@/assets/client-1.jpg'
-import client10Img from '@/assets/client-10.jpg'
-import client11Img from '@/assets/client-11.jpg'
-import client12Img from '@/assets/client-12.jpg'
-import client13Img from '@/assets/client-13.jpg'
-import client14Img from '@/assets/client-14.jpg'
-import client15Img from '@/assets/client-15.jpg'
-import client16Img from '@/assets/client-16.jpg'
-import client2Img from '@/assets/client-2.jpg'
-import client3Img from '@/assets/client-3.jpg'
-import client4Img from '@/assets/client-4.jpg'
-import client5Img from '@/assets/client-5.jpg'
-import client6Img from '@/assets/client-6.jpg'
-import client7Img from '@/assets/client-7.jpg'
-import client8Img from '@/assets/client-8.jpg'
-import client9Img from '@/assets/client-9.jpg'
-import decorationImg from '@/assets/decoration.png'
-import globeImg from '@/assets/globe.png'
-import handImg from '@/assets/hand.jpg'
-import imgesImg from '@/assets/imges.png'
-import manImg from '@/assets/man (1).png'
-import mechanicImg from '@/assets/mechanic.png'
-import qualityImg from '@/assets/quality.jpg'
-import tall from '@/assets/tall.png'
-// Service Images
-import allcivil from '@/assets/allcivil.jpg'
-import builderconstructure from '@/assets/builderconstructure.jpg'
-import planingImg from '@/assets/planing.jpg'
-import soilInvestigation1Img from '@/assets/soil-investigation-1.jpg'
-import soilTestingImg from '@/assets/soil-testing.jpg'
-import soliInvestigationImg from '@/assets/soli-investigation.jpg'
-import structuralImg from '@/assets/structural.jpg'
-import { CheckCircle2 } from 'lucide-react'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Footer from '@/layouts/Footer'
+import heroImg from "@/assets/hero-builders.jpg"
+import ActionButton, { TextLink } from "@/components/site/ActionButton"
+import CredentialsSection from "@/components/site/CredentialsSection"
+import CTASection from "@/components/site/CTASection"
+import { ChipPanel, ListPanel } from "@/components/site/HeroPanels"
+import PageHero from "@/components/site/PageHero"
+import ProcessTimeline from "@/components/site/ProcessTimeline"
+import ProjectShowcase from "@/components/site/ProjectShowcase"
+import { Reveal, RevealGroup } from "@/components/site/Reveal"
+import SectionHeading from "@/components/site/SectionHeading"
+import { ServiceMediaCard } from "@/components/site/ServiceCard"
+import StatsSection from "@/components/site/StatsSection"
+import TeamCard from "@/components/site/TeamCard"
+import TechnicalBackdrop from "@/components/site/TechnicalBackdrop"
+import { BUILDER_FIGURES, BUILDER_SERVICES, CREDENTIALS, DELIVERY_PROCESS, GOVERNMENT_CLIENTS, PEOPLE, PROJECTS } from "@/data/site"
+import Footer from "@/layouts/Footer"
+import { cn } from "@/lib/utils"
+import { Building2, Hammer, Wind } from "lucide-react"
 
-// Client Logos (replace with real ones later)
-const clientLogos = Array.from({ length: 16 }, (_, i) => ({
-    src: `https://picsum.photos/200/100?random=${i + 20}`,
-    alt: `Client ${i + 1}`
-}))
+const KEY_PERSONNEL = [PEOPLE.jebastin, PEOPLE.mukesh]
+const FEATURED_COUNT = 2
 
-const HomePage = () => {
-    const navigate = useNavigate()
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+const HERO_PANELS = [
+  { depth: 110, className: "-left-3 -bottom-8 sm:-left-10 lg:-left-14", content: <ListPanel title="Empaneled with" items={["CPWD", "RITES", "NBCC", "MES"]} /> },
+  { depth: 140, className: "left-[10%] -top-6 sm:left-[16%]", content: <ChipPanel icon={Wind}>Earthquake &amp; wind resistant</ChipPanel> },
+  { depth: 70, className: "-right-3 top-[20%] hidden sm:block sm:-right-8", content: <ChipPanel icon={Hammer}>Piling · Foundation · RCC</ChipPanel> },
+  { depth: 90, className: "-bottom-5 right-[6%] hidden sm:block", content: <ChipPanel icon={Building2}>IS 3370 water tanks</ChipPanel> },
+]
 
-    const container = {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.3 } }
-    }
+const scrollToServices = () =>
+  document.getElementById("ExploreProject")?.scrollIntoView({ behavior: "smooth", block: "start" })
 
-    const item = {
-        hidden: { opacity: 0, y: 30 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } }
-    }
+const HomePage = () => (
+  <div className="overflow-x-clip">
+    <PageHero
+      overlap
+      eyebrow="Transform the future of construction"
+      title={[{ text: "Milestone" }, { text: "Builders", className: "text-brand-400" }]}
+      lead="Complete civil engineering works, structural design and architectural planning — delivered by one accountable team."
+      image={heroImg}
+      imageAlt="Illustration of tower cranes above buildings under construction"
+      imagePosition="center 40%"
+      panels={HERO_PANELS}
+      trust={{ label: "Government contracts", items: GOVERNMENT_CLIENTS }}
+      actions={
+        <>
+          <ActionButton onClick={scrollToServices} magnetic>Explore projects</ActionButton>
+          <ActionButton to="/contact" variant="outline-light" icon={null}>Get quote</ActionButton>
+        </>
+      }
+    />
 
-    const cardMotion = {
-        hidden: { opacity: 0, y: 30, scale: 0.95 },
-        show: { opacity: 1, y: 0, scale: 1 }
-    }
+    <StatsSection figures={BUILDER_FIGURES} />
 
+    {/* 01 — Services */}
+    <section id="ExploreProject" className="section scroll-mt-16 bg-white">
+      <div className="container">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <SectionHeading index="01" eyebrow="What we build" title="Construction & engineering capabilities" className="lg:col-span-7" />
+          <Reveal className="lg:col-span-5" delay={0.1}>
+            <p className="t-lead text-ink-500">From foundations and RCC frames to roads, bridges and industrial structures — planned, designed and executed in-house.</p>
+          </Reveal>
+        </div>
+        <RevealGroup as="ul" gap={0.06} className="mt-14 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-6">
+          {BUILDER_SERVICES.map((service, i) => (
+            <ServiceMediaCard
+              key={service.id}
+              service={service}
+              index={i}
+              featured={i < FEATURED_COUNT}
+              className={cn(i < FEATURED_COUNT ? "lg:col-span-3" : "lg:col-span-2")}
+            />
+          ))}
+        </RevealGroup>
+      </div>
+    </section>
 
+    {/* 02 — Track record */}
+    <section id="track-record" className="section scroll-mt-20 bg-ink-50">
+      <div className="container">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
+          <SectionHeading index="02" eyebrow="Track record" title="Groundwork for India’s major infrastructure." className="lg:col-span-7" />
+          <Reveal className="flex flex-col gap-5 lg:col-span-5 lg:items-end lg:text-right" delay={0.1}>
+            <p className="t-lead text-ink-500">Every structure starts with the soil beneath it — the investigations our team has delivered.</p>
+            <TextLink to="/contact">Discuss your project</TextLink>
+          </Reveal>
+        </div>
+        <ProjectShowcase projects={PROJECTS} className="mt-14 lg:mt-16" />
+      </div>
+    </section>
 
-    const keyPersonnel = [
-    {
-        name: 'Mr. Jebastin Daniel M.E(Structural)',
-        experience: '13 Years of Experience',
-        role: 'Structural Designer',
-        // highlight: true, // this one is centered at the top
-    },
-    {
-        name: 'Mr. M.Mukesh B.E(Civil)',
-        experience: '13 Years of Experience',
-        role: 'Surveyor',
-    },
-    // {
-    //     name: 'Mr. M.MuthuRaja Thivakar M.E(GeoTech)',
-    //     experience: '4 Years of Experience',
-    //     role: 'GeoTechnical Engineer',
-    //     qualification: '',
-    // },
-   
-];
+    {/* 03 — Delivery process */}
+    <section className="section relative isolate overflow-hidden bg-ink-950 text-white">
+      <TechnicalBackdrop tone="dark" contours={false} />
+      <div className="container relative">
+        <SectionHeading
+          dark
+          index="03"
+          eyebrow="End-to-end ownership"
+          title="One team from ground investigation to handover."
+          lead="From site investigation → lab testing → design validation → construction QC. Zero handoff risks."
+        />
+        <div className="mt-16">
+          <ProcessTimeline steps={DELIVERY_PROCESS} dark />
+        </div>
+      </div>
+    </section>
 
-    const servicesAccordion = [
-        {
-            icon: Hammer,
-            value: "item-7",
-            title: "Complete Civil Engineering Works",
-            img: allcivil,
-            gradient: "from-orange-500 to-amber-600",
-            subtitle: "Turnkey Construction Solutions",
-            content: [
-                "Piling, foundation & RCC works",
-                "Roads, bridges & corridors",
-                "Industrial flooring & waterproofing",
-                "Renovation & rebuilding",
-                "Third-party quality testing",
-            ],
-        },
-        {
-            icon: Building2,
-            value: "item-6",
-            title: "Builders & Government Contractors",
-            img: builderconstructure,
-            gradient: "from-indigo-500 to-purple-600",
-            subtitle: "Empaneled with CPWD, RITES, NBCC, MES",
-            content: [
-                "Tamil Nadu Electricity Board (TNEB)",
-                "Tamil Nadu Housing & Police Housing",
-                "SIDCO & Slum Clearance Board",
-                "Multiple private developers",
-            ],
-        },
-        {
-            icon: PenTool,
-            value: "item-5",
-            title: "Architectural Planning & Estimation",
-            img: planingImg,
-            gradient: "from-rose-500 to-red-600",
-            subtitle: "From Concept to Costing",
-            content: [
-                "Detailed architectural & structural drawings",
-                "BOQ preparation & rate analysis",
-                "3D modeling & walkthroughs",
-                "Tender documentation",
-                "Value engineering & cost optimization",
-            ],
-        },
-        {
-            icon: Ruler,
-            value: "item-4",
-            title: "Structural Design & Detailing",
-            img: structuralImg,
-            gradient: "from-emerald-500 to-teal-600",
-            subtitle: "Earthquake & Wind Resistant Designs",
-            content: [
-                "High-rise buildings & industrial structures",
-                "Steel plants, power plants & ETP",
-                "Water tanks (IS 3370 compliant)",
-                "Heavy machinery foundation design",
-                "Structural audit & retrofitting",
-            ],
-        },
-        {
-            icon: ShieldCheck,
-            value: "item-8",
-            title: "Surveying",
-            img: soliInvestigationImg,
-            gradient: "from-blue-500 to-cyan-600",
-            subtitle: "Boundary mapping, contouring, and GIS documentation.",
-            content: [
-                "Total stations and DGPS",
-                "Underground and overhead asset mapping.",
-                "Railway alignment, clearance, and asset mapping.",
-                "Highway and smart mobility infrastructure surveying.",
-                "Boundary mapping, contouring, and GIS documentation.",
-            ],
-        },
+    <CredentialsSection index="04" credentials={CREDENTIALS} />
 
-        {
-            icon: FlaskConical,
-            value: "item-3",
-            title: "Advanced Soil Laboratory Testing",
-            img: soilTestingImg,
-            gradient: "from-purple-500 to-pink-600",
-            subtitle: "",
-            content: [
-                "SPT, SCPT & DCPT Testing",
-                "Plate Load & Cyclic Plate Load Test",
-                "Electrical & Thermal Resistivity",
-                "Triaxial, Direct Shear & Vane Shear",
-                "Consolidation, Permeability & CBR",
-                "Chemical analysis of soil & groundwater",
-            ],
-        },
-        {
-            icon: ShieldCheck,
-            value: "item-2",
-            title: "Geotechnical Soil Investigation",
-            img: soliInvestigationImg,
-            gradient: "from-blue-500 to-cyan-600",
-            subtitle: "ASTM & IS Compliant Site Characterization",
-            content: [
-                "Comprehensive site characterization using ASTM-standard methodologies.",
-                "Seismic refraction & MASW surveys",
-                "Bearing capacity assessment & settlement prediction",
-                "Liquefaction analysis and slope stability studies",
-                "Deep soil exploration up to 60m depth",
-            ],
-        },
-        {
-            icon: Layers,
-            value: "item-1",
-            title: "Soil Investigation Major Projects",
-            img: soilInvestigation1Img,
-            gradient: "from-amber-500 to-orange-600",
-            subtitle: "Trusted by India’s Top Infrastructure Giants",
-            content: [
-                "L & T Limited",
-                "Sharpoorji Pallonji & Co. Ltd",
-                "Gammon India Limited",
-                "Southern Railway",
-                "Chennai Metro Rail Limited (CMRL)",
-                "Dholera International Airport - Gujarat",
-                "Highway Projects (NH45 & NH47)",
-                "Chennai Elevated Highway Bridge Project",
-                "72+ Major & Minor Bridges across Tamil Nadu",
-                "150+ Telecommunication Towers across Tamil Nadu",
-            ],
-        },
-
-
-
-
-
-
-    ]
-
-    const links = ["Builders", "Surveys", "Geo Servicess", "Contact Us"]
-
-    const reasons = [
-        {
-            id: "clients",
-            title: "Clients",
-            icon: Users,
-            highlight: "Trusted by leading builders & businesses",
-            description:
-                "Our esteemed clients have been our backbone for years, trusting us with mission-critical projects and repeat engagements.",
-            badge: "Client-centric",
-        },
-        // {
-        //     id: "certified",
-        //     title: "Certified",
-        //     icon: BadgeCheck,
-        //     highlight: "certified excellence",
-        //     description:
-        //         "We are certified for Geo-Technical Soil Testing & Allied Services, following strict quality standards at every stage.",
-        //     badge: "NABL Accredited",
-        // // },
-        // {
-        //     id: "reliability",
-        //     title: "Reliability",
-        //     icon: ShieldCheck,
-        //     highlight: "Consistent, data-driven decisions",
-        //     description:
-        //         "We follow proven statistical and geo-technical methodologies to deliver repeatable, reliable outcomes you can build on.",
-        //     badge: "Proven track record",
-        // },
-        {
-            id: "quality",
-            title: "Quality",
-            icon: Award,
-            highlight: "High-precision testing & reporting",
-            description:
-                "Standardised processes, well-equipped labs, and experienced professionals help us commit to uncompromised quality.",
-            badge: "Quality first",
-        },
-    ]
-
-    const imageLogos = [
-        { src: client1Img, alt: "Company 1", href: "https://company1.com" },
-        { src: client2Img, alt: "Company 2", href: "https://company2.com" },
-        { src: client3Img, alt: "Company 3", href: "https://company3.com" },
-        { src: client4Img, alt: "Company 4", href: "https://company4.com" },
-        { src: client5Img, alt: "Company 5", href: "https://company5.com" },
-        { src: client6Img, alt: "Company 6", href: "https://company6.com" },
-        { src: client7Img, alt: "Company 7", href: "https://company7.com" },
-        { src: client8Img, alt: "Company 8", href: "https://company8.com" },
-        { src: client9Img, alt: "Company 9", href: "https://company9.com" },
-        { src: client10Img, alt: "Company 10", href: "https://company10.com" },
-        { src: client11Img, alt: "Company 11", href: "https://company11.com" },
-        { src: client12Img, alt: "Company 12", href: "https://company12.com" },
-        { src: client13Img, alt: "Company 13", href: "https://company13.com" },
-        { src: client14Img, alt: "Company 14", href: "https://company14.com" },
-        { src: client15Img, alt: "Company 15", href: "https://company15.com" },
-        { src: client16Img, alt: "Company 16", href: "https://company16.com" },
-
-    ];
-
-    const handleScroll = () => {
-        document.getElementById("ExploreProject")?.scrollIntoView({
-            behavior: "smooth",
-        });
-    };
-
-
-    return (
-        <LazyMotion features={domAnimation}>
-            <div className="relative min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 font-sans overflow-x-hidden">
-
-                {/* Hero Section */}
-                <section className="relative h-screen flex flex-col justify-center items-center text-center px-6 overflow-hidden">
-                    <motion.img
-                        src={tall}
-                        alt="Construction Excellence"
-                        className="absolute inset-0 w-full h-full object-cover opacity-90 "
-                        initial={{ scale: 1.1 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
-                    />
-
-                    <div className="relative z-10 max-w-5xl  mx-auto">
-                        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-                            <BlurText
-                                text="Transform     the future of construction with"
-                                delay={200}
-                                className="text-lg sm:text-2xl flex items-center justify-center font-bold mt-32 text-orange-700 tracking-wider"
-                            />
-                        </motion.div>
-
-                        <motion.h1
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 1, delay: 0.6 }}
-                            className="text-5xl sm:text-8xl md:text-9xl font-black tracking-tighter "
-                        >
-                            <span className="block text-orange-900">MILESTONE</span>
-                            <span className="block text-amber-600 -mt-6 sm:-mt-12">BUILDERS</span>
-                        </motion.h1>
-
-                         
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1.2 }}
-                            className="mt-12 flex flex-col sm:flex-row gap-6 justify-center"
-                        >
-                            <Button
-                                onClick={handleScroll}
-                                size="lg"
-                                className="bg-gradient-to-r sm:text-lg text-xs from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold rounded-full sm:px-10 sm:py-7 py-4 px-5  shadow-2xl"
-                            >
-                                Explore Projects <ArrowRight className="ml-2" />
-                            </Button>
-
-                            <Button onClick={() => navigate(`/contact`)} size="lg" variant="outline" href="#GetQuote" className="bg-white/90 backdrop-blur text-xs sm:text-lg text-orange-700 border-2 border-orange-300 hover:bg-orange-50 rounded-full sm:px-10 sm:py-7 py-4 px-5 font-bold">
-                                Get Quote
-                            </Button>
-                        </motion.div>
-                    </div>
-                </section>
-
-                 {/* Key Personnel Timeline */}
-        <section className="py-20 px-6 ">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-center text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-orange-700 bg-clip-text text-transparent mb-16">
-              Key Personnel
-            </h2>
-
-            <div className="relative">
-              {/* Central Vertical Line - Orange */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-orange-400 h-full hidden md:block opacity-60" />
-
-              <div className="space-y-24">
-                {keyPersonnel.map((person, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 60 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.7, delay: i * 0.2 }}
-                    className="relative"
-                  >
-                    {/* Top Highlighted Person (Centered) */}
-                    {person.highlight ? (
-                      <div className="flex flex-col items-center">
-                        {/* Large Orange Dot Above */}
-                        <div className="sm:w-16 sm:h-16 w-12 h-12 bg-orange-600 rounded-full shadow-2xl mb-6 relative z-10" />
-
-                        {/* Person Card */}
-                        <div className="text-center max-w-md bg-white rounded-3xl p-10 shadow-2xl ">
-                          <h3 className="sm:text-3xl text-xl font-bold text-gray-900">
-                            {person.name}
-                          </h3>
-                          <p className="sm:text-2xl text-lg  font-bold text-orange-600 mt-3">
-                            {person.experience}
-                          </p>
-                          <div className="mt-6 pt-6 border-t-2 border-orange-200">
-                            <p className="sm:text-2xl text-lg font-semibold text-gray-800">
-                              {person.role}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      /* Alternating Left/Right Cards */
-                      <div
-                        className={`flex items-center justify-center gap-10 ${
-                          i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                        } flex-col md:flex-row`}
-                      >
-                        {/* Empty spacer for alignment */}
-                        <div className="flex-1 hidden md:block" />
-
-                        {/* Timeline Dot */}
-                        <div className="w-14 h-14   bg-orange-500 rounded-full shadow-xl  z-20 flex-shrink-0" />
-
-                        {/* Person Card */}
-                        <div className="flex-1 max-w-md">
-                          <div className="bg-white rounded-2xl p-8 shadow-xl border border-orange-100 hover:shadow-2xl transition-shadow">
-                            <h3 className="sm:text-2xl text-xl font-bold text-gray-900">
-                              {person.name}
-                            </h3>
-
-                            {person.qualification && (
-                              <p className="text-orange-600 font-semibold mt-2">
-                                {person.qualification}
-                              </p>
-                            )}
-
-                            <p className="text-lg font-medium text-orange-700 mt-4">
-                              {person.experience}
-                            </p>
-
-                            <div className="mt-6 pt-6 border-t border-gray-200">
-                              <p className="text-2xl font-semibold text-gray-800">
-                                {person.role}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+    {/* 05 — Key personnel */}
+    <section className="section bg-ink-50">
+      <div className="container grid gap-12 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-4">
+          <div className="lg:sticky lg:top-28">
+            <SectionHeading index="05" eyebrow="Key personnel" title="Led by engineers with 13 years of experience." />
           </div>
-        </section>
+        </div>
+        <RevealGroup as="ul" className="grid gap-6 sm:grid-cols-2 lg:col-span-8" gap={0.12}>
+          {KEY_PERSONNEL.map((person) => <TeamCard key={person.name} person={person} />)}
+        </RevealGroup>
+      </div>
+    </section>
 
+    <CTASection
+      title="Ready to Start Your Project?"
+      lead="Share your plans with us — we’ll help you with planning, estimation and execution."
+      actions={<ActionButton to="/contact" magnetic>Contact us today</ActionButton>}
+    />
 
-
-                <section className="py-20 bg-orange-600 text-white text-center">
-                    <div className="max-w-4xl mx-auto px-6">
-                        <h3 className="text-4xl font-bold mb-6">Ready to Start Your Project?</h3>
-
-
-                        <button onClick={() => navigate(`/contact`)} className="px-10 py-5 bg-white text-orange-600 font-bold text-lg rounded-full hover:bg-gray-100 transform hover:scale-105 transition-all shadow-xl">
-                            Contact Us Today
-                        </button>
-                    </div>
-                </section>
-
-                                    
-                     <Footer  />               
-
-
-            </div >
-
-        </LazyMotion >
-
-
-    )
-}
+    <Footer />
+  </div>
+)
 
 export default HomePage
