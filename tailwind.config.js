@@ -1,5 +1,8 @@
 import animate from "tailwindcss-animate"
 
+// Theme-aware colour: values live in CSS variables (src/index.css) and flip under `.dark`.
+const themed = (name) => `rgb(var(--${name}) / <alpha-value>)`
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -22,32 +25,34 @@ export default {
         mono: ["'JetBrains Mono'", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       colors: {
-        // Brand navy — derived from the logo's horse mark
+        // Brand navy — derived from the logo's horse mark.
+        // 50–900 are themed (they invert for dark mode); 950 is the fixed "dark surface" colour.
         ink: {
-          50: "#F4F6FA",
-          100: "#E6EAF2",
-          200: "#CDD4E1",
-          300: "#9EA9BF",
-          400: "#6E7B96",
-          500: "#4B5873",
-          600: "#34405A",
-          700: "#222D45",
-          800: "#141D31",
-          900: "#0B1220",
+          50: themed("ink-50"),
+          100: themed("ink-100"),
+          200: themed("ink-200"),
+          300: themed("ink-300"),
+          400: themed("ink-400"),
+          500: themed("ink-500"),
+          600: themed("ink-600"),
+          700: themed("ink-700"),
+          800: themed("ink-800"),
+          900: themed("ink-900"),
           950: "#060A13",
         },
-        // Brand gold — derived from the logo's "M" mark
+        // Brand gold — derived from the logo's "M" mark. 300–500 are fixed accents; the tints and
+        // text shades are themed so they stay legible on dark surfaces.
         brand: {
-          50: "#FFF8EB",
-          100: "#FEEDC8",
-          200: "#FDD98D",
+          50: themed("brand-50"),
+          100: themed("brand-100"),
+          200: themed("brand-200"),
           300: "#FBC152",
           400: "#F7A928",
           500: "#EB9110",
-          600: "#C9710A",
-          700: "#A0540C",
-          800: "#824311",
-          900: "#6B3812",
+          600: themed("brand-600"),
+          700: themed("brand-700"),
+          800: themed("brand-800"),
+          900: themed("brand-900"),
         },
         signal: {
           400: "#6FA8FF",
@@ -86,6 +91,10 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+      },
+      // `bg-white` is the page/card surface, so it follows the theme. `text-white` stays pure white.
+      backgroundColor: {
+        white: themed("surface"),
       },
       borderRadius: {
         lg: 'var(--radius)',

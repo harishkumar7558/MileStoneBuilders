@@ -68,7 +68,7 @@ const ServicePicker = ({ value, onChange }) => (
                 "flex min-h-[44px] items-center gap-2 rounded-full border px-4 text-sm font-medium transition-all duration-200",
                 "peer-focus-visible:ring-4 peer-focus-visible:ring-brand-400/25",
                 checked
-                  ? "border-ink-900 bg-ink-900 text-white"
+                  ? "border-ink-900 bg-ink-900 text-white dark:border-white dark:bg-white dark:text-ink-950"
                   : "border-ink-200 bg-white text-ink-700 hover:border-ink-400 hover:text-ink-900",
               )}
             >
@@ -268,7 +268,7 @@ const ContactForm = () => {
               <button
                 type="submit"
                 disabled={sending}
-                className="group inline-flex h-12 min-w-[12rem] items-center justify-center gap-2.5 rounded-xl bg-ink-900 px-7 font-semibold text-white shadow-[0_14px_30px_-14px_rgba(11,18,32,0.7)] transition-[background-color,transform] duration-200 hover:bg-ink-800 active:scale-[0.98] disabled:cursor-wait disabled:opacity-80 sm:h-14"
+                className="group inline-flex h-12 min-w-[12rem] items-center justify-center gap-2.5 rounded-xl bg-ink-900 px-7 font-semibold text-white shadow-[0_14px_30px_-14px_rgba(11,18,32,0.7)] transition-[background-color,transform] duration-200 hover:bg-ink-800 dark:bg-white dark:text-ink-950 dark:hover:bg-ink-100 active:scale-[0.98] disabled:cursor-wait disabled:opacity-80 sm:h-14"
               >
                 {sending ? (
                   <>
