@@ -26,7 +26,76 @@
     --radius: 0.75rem;
     --header-h: 72px;
   }
+}
 
+/*
+ * Theme palette (RGB channels, consumed by tailwind.config.js).
+ * Light values apply by default, and are restored inside fixed dark surfaces
+ * (bg-ink-950 / bg-ink-900 / glass-dark / panel-dark) and `.theme-locked`, so those
+ * render identically in both themes.
+ * Kept outside @layer on purpose: inside a layer Tailwind treats `.bg-ink-900` here as part of
+ * that utility and copies this rule into its hover:/data-* variants.
+ */
+:root,
+.dark :is(.bg-ink-950, .bg-ink-900, .glass-dark, .panel-dark, .theme-locked) {
+  --surface: 255 255 255;
+  --ink-50: 244 246 250;
+  --ink-100: 230 234 242;
+  --ink-200: 205 212 225;
+  --ink-300: 158 169 191;
+  --ink-400: 110 123 150;
+  --ink-500: 75 88 115;
+  --ink-600: 52 64 90;
+  --ink-700: 34 45 69;
+  --ink-800: 20 29 49;
+  --ink-900: 11 18 32;
+  --brand-50: 255 248 235;
+  --brand-100: 254 237 200;
+  --brand-200: 253 217 141;
+  --brand-600: 201 113 10;
+  --brand-700: 160 84 12;
+  --brand-800: 130 67 17;
+  --brand-900: 107 56 18;
+}
+
+.dark {
+  color-scheme: dark;
+  --surface: 15 22 38;
+  --ink-50: 10 15 27;
+  --ink-100: 28 37 58;
+  --ink-200: 45 56 81;
+  --ink-300: 78 91 117;
+  --ink-400: 128 141 166;
+  --ink-500: 160 172 194;
+  --ink-600: 184 194 211;
+  --ink-700: 207 214 227;
+  --ink-800: 228 232 240;
+  --ink-900: 244 246 250;
+  --brand-50: 42 30 13;
+  --brand-100: 64 44 15;
+  --brand-200: 104 70 20;
+  --brand-600: 247 169 40;
+  --brand-700: 251 193 82;
+  --brand-800: 253 217 141;
+  --brand-900: 254 237 200;
+
+  --background: 222 44% 10%;
+  --foreground: 220 33% 97%;
+  --card: 222 44% 10%;
+  --card-foreground: 220 33% 97%;
+  --popover: 222 44% 10%;
+  --popover-foreground: 220 33% 97%;
+  --secondary: 222 46% 7%;
+  --secondary-foreground: 220 33% 97%;
+  --muted: 222 46% 7%;
+  --muted-foreground: 219 20% 70%;
+  --accent: 36 53% 11%;
+  --accent-foreground: 220 33% 97%;
+  --border: 222 29% 20%;
+  --input: 222 29% 24%;
+}
+
+@layer base {
   * {
     @apply border-border;
   }
@@ -120,6 +189,10 @@
     -webkit-backdrop-filter: blur(18px) saturate(170%);
     backdrop-filter: blur(18px) saturate(170%);
   }
+  .dark .glass-light {
+    background-color: rgb(15 22 38 / 0.78);
+    border-color: rgb(255 255 255 / 0.1);
+  }
   /* Opaque dark panel with a top sheen — for layers that animate (no backdrop blur to recompute). */
   .panel-dark {
     background: linear-gradient(to bottom, rgb(255 255 255 / 0.07), transparent 65%), rgb(11 18 32 / 0.94);
@@ -155,6 +228,14 @@
     background-image: radial-gradient(rgb(11 18 32 / 0.12) 1px, transparent 1px);
     background-size: 22px 22px;
   }
+  .dark .bg-grid-light {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  }
+  .dark .bg-dots-light {
+    background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1px);
+  }
   .bg-dots-dark {
     background-image: radial-gradient(rgb(255 255 255 / 0.1) 1px, transparent 1px);
     background-size: 22px 22px;
@@ -174,6 +255,9 @@
     content: "";
     @apply absolute inset-0 motion-safe:animate-shimmer;
     background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.6), transparent);
+  }
+  .dark .skeleton::after {
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.06), transparent);
   }
 }
 

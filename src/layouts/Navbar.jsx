@@ -2,6 +2,7 @@ import logo from "@/assets/logo-mark.png"
 import ActionButton, { SwapArrow } from "@/components/site/ActionButton"
 import { useLeadDialog } from "@/components/site/LeadDialogContext"
 import { EASE_OUT } from "@/components/site/motion"
+import ThemeToggle from "@/components/site/ThemeToggle"
 import { CONTACT, DIVISIONS, PRIMARY_NAV } from "@/data/site"
 import { cn } from "@/lib/utils"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
@@ -15,7 +16,7 @@ const HOVER_CLOSE_DELAY = 140
 
 const Brand = ({ solid }) => (
   <Link to="/" className="group flex items-center gap-3 rounded-lg" aria-label="Milestone Groups — home">
-    <span className="relative flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-ink-900/5 transition-transform duration-500 ease-out-expo group-hover:rotate-[-8deg] group-hover:scale-105">
+    <span className="theme-locked relative flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-ink-900/5 transition-transform duration-500 ease-out-expo group-hover:rotate-[-8deg] group-hover:scale-105">
       <img src={logo} alt="" className="h-9 w-9 object-contain" />
     </span>
     <span className="leading-none">
@@ -29,14 +30,13 @@ const Brand = ({ solid }) => (
   </Link>
 )
 
-const MenuIcon = ({ open, solid }) => (
+const MenuIcon = ({ open }) => (
   <span className="relative block h-3.5 w-5" aria-hidden="true">
     {[0, 1].map((i) => (
       <span
         key={i}
         className={cn(
-          "absolute left-0 h-[1.5px] w-full rounded-full transition-all duration-300 ease-out-expo",
-          solid ? "bg-ink-900" : "bg-white",
+          "absolute left-0 h-[1.5px] w-full rounded-full bg-current transition-all duration-300 ease-out-expo",
           i === 0 ? (open ? "top-1.5 rotate-45" : "top-0") : (open ? "top-1.5 -rotate-45" : "top-3 w-3.5"),
         )}
       />
@@ -267,6 +267,7 @@ const Navbar = () => {
                 <Phone className="h-3.5 w-3.5" aria-hidden="true" />
                 {CONTACT.phones[0].display}
               </a>
+              <ThemeToggle solid={isSolid} />
               <ActionButton size="md" onClick={openLeadDialog} magnetic className="hidden sm:inline-flex">
                 Get Quote
               </ActionButton>
@@ -278,10 +279,10 @@ const Navbar = () => {
                 aria-label={menuOpen ? "Close menu" : "Open menu"}
                 className={cn(
                   "flex h-11 w-11 items-center justify-center rounded-xl ring-1 ring-inset transition-colors lg:hidden",
-                  isSolid ? "ring-ink-900/15 hover:bg-ink-900/5" : "ring-white/25 hover:bg-white/10",
+                  isSolid ? "text-ink-900 ring-ink-900/15 hover:bg-ink-900/5" : "text-white ring-white/25 hover:bg-white/10",
                 )}
               >
-                <MenuIcon open={menuOpen} solid={isSolid} />
+                <MenuIcon open={menuOpen} />
               </button>
             </div>
 

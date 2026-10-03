@@ -40,7 +40,7 @@ const CertificateCard = ({ person, className }) => {
                 <button
                   type="button"
                   aria-label={`View the full certificate issued to ${person.name}`}
-                  className="group/doc relative block w-full max-w-[15rem] rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-4 focus-visible:ring-offset-ink-950"
+                  className="group/doc relative block w-full max-w-[13rem] rounded-md sm:max-w-[15rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-4 focus-visible:ring-offset-ink-950"
                 >
                   <span
                     aria-hidden="true"
