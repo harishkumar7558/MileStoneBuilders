@@ -2,6 +2,7 @@ import heroImg from "@/assets/hero-geo.jpg"
 import soilInvestigationImg from "@/assets/soil-investigation-1.jpg"
 import ActionButton, { TextLink } from "@/components/site/ActionButton"
 import CapabilityExplorer from "@/components/site/CapabilityExplorer"
+import CertificateCard from "@/components/site/CertificateCard"
 import CTASection from "@/components/site/CTASection"
 import FaqSection from "@/components/site/FaqSection"
 import { BoreholePanel, ChipPanel, ListPanel } from "@/components/site/HeroPanels"
@@ -67,8 +68,6 @@ const CORE_VALUES = [
   { icon: TrendingUp, title: "Sustainable Engineering", desc: "Eco-conscious site planning, soil stabilization, and low-impact methods." },
   { icon: User, title: "Client-Centric Approach", desc: "Dedicated project manager, weekly updates, and 24/7 technical support." },
 ]
-
-const KEY_PERSONNEL = [PEOPLE.chandrasekar, PEOPLE.muthuraja]
 
 const EXPERTISE = ["Civil Construction", "Structural Design", "Soil Survey", "Geotechnical Investigation"]
 
@@ -314,8 +313,11 @@ const GeoService = () => (
             </Reveal>
           </div>
         </div>
+        {/* The certificate sits directly under Chandrasekar on mobile and spans the row beneath both cards from sm up. */}
         <RevealGroup as="ul" className="grid gap-6 sm:grid-cols-2 lg:col-span-8" gap={0.12}>
-          {KEY_PERSONNEL.map((person) => <TeamCard key={person.name} person={person} />)}
+          <TeamCard person={PEOPLE.chandrasekar} />
+          <CertificateCard person={PEOPLE.chandrasekar} className="order-1 sm:order-2 sm:col-span-2" />
+          <TeamCard person={PEOPLE.muthuraja} className="order-2 sm:order-1" />
         </RevealGroup>
       </div>
     </section>

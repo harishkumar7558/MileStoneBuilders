@@ -10,6 +10,8 @@ import {
 
 import allcivil from "@/assets/allcivil.jpg"
 import builderconstructure from "@/assets/builderconstructure.jpg"
+import chandrasekarImg from "@/assets/chandrasekar.png"
+import chandrasekarReportImg from "@/assets/chandrasekarReport.jpeg"
 import planningImg from "@/assets/planing.jpg"
 import mukeshImg from "@/assets/portrait-mukesh.jpg"
 import muthuRajaImg from "@/assets/portrait-muthuraja.jpg"
@@ -265,8 +267,20 @@ export const PEOPLE = {
     name: "Dr. N. Chandrasekar",
     role: "Sr. Geologist",
     credential: "ISO/IEC 17025:2017 Compliance Testing Services",
+    photo: chandrasekarImg,
     expertise: ["Soil testing", "Water testing", "Rock testing"],
     summary: "Accurate, reliable & professional geological field and lab testing.",
+    // Wording taken from the BIS / NITS training certificate itself.
+    certificate: {
+      image: chandrasekarReportImg,
+      title: "Laboratory Quality Management System & Internal Audit",
+      standard: "IS/ISO/IEC 17025:2017",
+      duration: "4 days",
+      held: "06–09 June 2022",
+      issuer: "National Institute of Training for Standardization",
+      authority: "Bureau of Indian Standards",
+      reference: "NITS/TRG/03/2022-23/07/08",
+    },
   },
   muthuraja: {
     name: "Mr. M. MuthuRaja Thivakar",
