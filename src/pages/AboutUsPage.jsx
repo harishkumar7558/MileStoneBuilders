@@ -133,7 +133,7 @@ const AboutUsPage = () => (
             index="01"
             eyebrow="Leadership"
             title="Leadership that inspires excellence."
-            lead="MilestoneBuilders was established by two passionate professionals — Mukesh B.E(Surveyor), with 13+ years in surveying, and Muthuraja M.E(Geo-Technical), with 4 years of Geo-Technical expertise. Together, they combine experience and innovation to deliver precise engineering solutions with trust and integrity."
+            lead="MilestoneGeoServices was established by two passionate professionals — Mukesh B.E(Surveyor), with 13+ years in surveying, and Muthuraja M.E(Geo-Technical), with 4 years of Geo-Technical expertise. Together, they combine experience and innovation to deliver precise engineering solutions with trust and integrity."
           />
           <div className="mt-14">
             <StoryTimeline />

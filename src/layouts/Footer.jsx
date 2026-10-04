@@ -56,8 +56,7 @@ const Footer = () => (
           </span>
         </Link>
         <p className="mt-6 max-w-sm text-[15px] leading-relaxed text-white/55">
-          Your trusted partner in modern construction &amp; engineering solutions — geotechnical investigation,
-          surveying, structural design and civil works.
+          Your trusted partner in modern construction & engineering solutions — geotechnical investigation, surveying, structural design and civil works.
         </p>
         <ul className="mt-7 flex gap-2">
           {SOCIAL.map((s) => (

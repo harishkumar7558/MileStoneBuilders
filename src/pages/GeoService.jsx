@@ -247,7 +247,7 @@ const GeoService = () => (
           <SectionHeading
             index="05"
             eyebrow="Why choose us"
-            title="Why India trusts MilestoneBuilders"
+            title="Why India trusts MilestoneGeoServices"
             lead="We don’t just test soil — we de-risk your entire project with science, experience, and integrity."
             className="lg:col-span-6"
           />
