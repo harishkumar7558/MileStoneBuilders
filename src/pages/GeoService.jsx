@@ -28,9 +28,9 @@ const scrollToServices = () =>
 const COMPANY_STORY = [
   {
     label: "Company",
-    statement: "Your trusted partner in modern construction & engineering solutions.",
+    statement: "Your trusted partner in geotechnical investigation, soil testing and surveying.",
     body: [
-      "We are a professionally driven construction and engineering organization dedicated to delivering reliable, innovative, and value-focused building solutions. With expertise across residential, commercial, and industrial projects, we combine technical excellence, strategic planning, and modern construction practices to ensure efficiency, durability, and customer trust in every project we execute.",
+      "Milestone Geo Services delivers geotechnical soil investigation, soil and rock laboratory testing, and land surveying for infrastructure, industrial and residential projects. With ASTM- and IS-compliant field methods, ISO/IEC 17025-compliant testing, and experienced geologists and geotechnical engineers, we give designers and builders reliable ground data — and the confidence to build on solid ground.",
     ],
   },
   {

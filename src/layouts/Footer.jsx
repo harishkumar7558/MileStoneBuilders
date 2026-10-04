@@ -123,7 +123,7 @@ const Footer = () => (
     {/* Bottom padding keeps the floating WhatsApp / back-to-top buttons clear of this line at full scroll. */}
     <div className="relative border-t border-white/10">
       <div className="container flex flex-col gap-2 pb-24 pt-6 text-[13px] text-white/40 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-        <p>Copyright © 2026 · All Rights Reserved · MilestoneBuilders</p>
+        <p>Copyright © 2026 · All Rights Reserved · MilestoneGeoServices</p>
         <p>Powered by harishkumarsivaraman@gmail.com</p>
       </div>
     </div>
