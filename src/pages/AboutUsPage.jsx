@@ -20,7 +20,7 @@ import { useRef } from "react"
 
 const DIRECTORS = [
   { img: mukeshImg, name: "Mukesh", title: "Director", detail: "B.E · Surveyor · 13+ years in surveying" },
-  { img: muthuRajaImg, name: "Muthuraja", title: "Director", detail: "M.E · Geo-Technical · 4 years of expertise" },
+  { img: muthuRajaImg, name: "MuthuRaja Thivakar", title: "Director", detail: "M.E · Geo-Technical · 4 years of expertise" },
 ]
 
 // Founding story, as told in the company description.

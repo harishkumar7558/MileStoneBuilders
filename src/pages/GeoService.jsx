@@ -69,7 +69,7 @@ const CORE_VALUES = [
   { icon: User, title: "Client-Centric Approach", desc: "Dedicated project manager, weekly updates, and 24/7 technical support." },
 ]
 
-const EXPERTISE = ["Civil Construction", "Structural Design", "Soil Survey", "Geotechnical Investigation"]
+const EXPERTISE = ["Civil Construction", "Soil Survey", "Geotechnical Investigation"]
 
 const HERO_PANELS = [
   { depth: 110, className: "-left-2 -bottom-6 origin-bottom-left scale-[0.7] sm:-left-10 sm:bottom-[-12%] sm:scale-100 lg:-left-16", content: <BoreholePanel /> },
@@ -183,7 +183,7 @@ const GeoService = () => (
       <div className="container relative">
         <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <h2 className="t-h2 max-w-xl">Our Expertise in Action</h2>
-          <p className="max-w-md text-white/60">Excellence in Civil Construction, Structural Design, Soil Survey &amp; Geotechnical Investigation.</p>
+          <p className="max-w-md text-white/60">Excellence in Civil Construction, Soil Survey &amp; Geotechnical Investigation.</p>
         </Reveal>
       </div>
       <div className="relative mt-14">
